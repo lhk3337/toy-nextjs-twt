@@ -1,3 +1,6 @@
 module.exports = {
-  reactStrictMode: true
+  images: {
+    domains: ["abs.twimg.com"],
+  },
+  reactStrictMode: true,
 };
