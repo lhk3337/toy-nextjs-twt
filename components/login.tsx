@@ -1,12 +1,21 @@
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import useMutation from "../lib/useMutation";
+import { useRouter } from "next/router";
 interface EventClickProps {
   eventClick: () => void;
+}
+interface MutationResult {
+  ok: boolean;
 }
 interface IUser {
   email: string;
   password: string;
 }
 export default function Login({ eventClick }: EventClickProps) {
+  const [enter, { data: loginData }] = useMutation<MutationResult>("/api/login");
+
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -14,8 +23,15 @@ export default function Login({ eventClick }: EventClickProps) {
   } = useForm<IUser>();
 
   const onSubmit: SubmitHandler<IUser> = (data) => {
-    console.log(data);
+    enter(data);
   };
+
+  useEffect(() => {
+    if (loginData?.ok) {
+      router.push("/home");
+    }
+  }, [loginData, router]);
+
   return (
     <div className="w-96 max-w-2xl mx-auto">
       <div className="relative rounded-lg max-w-sm p-4 sm:p-6 lg:p-8 bg-[#1f2937]">
@@ -43,10 +59,10 @@ export default function Login({ eventClick }: EventClickProps) {
               type="email"
               id="email"
               {...register("email", { required: "이메일 주소를 입력해주세요" })}
-              className="bg-gray-50  mb-1 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              className="bg-gray-50  mb-2 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               placeholder="이메일 주소를 입력해주세요"
             />
-            <span className="text-[#FF6E6E] font-black">{errors.email?.message}</span>
+            <span className="text-[#FF6E6E] font-bold text-sm">{errors.email?.message}</span>
           </div>
           <div>
             <label htmlFor="password" className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">
@@ -58,11 +74,14 @@ export default function Login({ eventClick }: EventClickProps) {
               placeholder="••••••••"
               {...register("password", {
                 required: "비밀번호를 입력해주세요",
-                minLength: { message: "비밀번호를 10글자 이상 입력하세요", value: 10 },
+                minLength: { message: "비밀번호를 10글자 이상 입력해 주세요", value: 10 },
               })}
-              className="bg-gray-50 border border-gray-300 mb-1 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              className="bg-gray-50 border border-gray-300 mb-2 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             />
-            <span className="text-[#FF6E6E]">{errors.password?.message}</span>
+            <span className="text-[#FF6E6E] font-bold text-sm">{errors.password?.message}</span>
+            <p className="text-[#FF6E6E] font-bold text-sm">
+              {loginData?.ok === false ? "비밀번호가 틀렸습니다. 다시 입력해주세요" : null}
+            </p>
           </div>
 
           <button
@@ -81,11 +100,4 @@ export default function Login({ eventClick }: EventClickProps) {
       </div>
     </div>
   );
-}
-
-{
-  /* // <>
-    //
-    //   <h1>Login</h1>
-    // </> */
 }
