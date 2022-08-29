@@ -5,7 +5,7 @@ import db from "../../lib/db";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!req.session.user) return res.status(400).json({ ok: false });
-  const user = await db.user.findUnique({ where: { email: req.session.user?.email } });
+  const user = await db.user.findUnique({ where: { userId: req.session.user?.userId } });
 
   return res.json({
     ok: true,

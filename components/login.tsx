@@ -9,7 +9,7 @@ interface MutationResult {
   ok: boolean;
 }
 interface IUser {
-  email: string;
+  userId: string;
   password: string;
 }
 export default function Login({ eventClick }: EventClickProps) {
@@ -52,17 +52,17 @@ export default function Login({ eventClick }: EventClickProps) {
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <h3 className="text-xl font-medium text-gray-900 dark:text-white">트위터에 로그인 하기</h3>
           <div>
-            <label htmlFor="email" className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">
-              Your email
+            <label htmlFor="userId" className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">
+              아이디
             </label>
             <input
-              type="email"
-              id="email"
-              {...register("email", { required: "이메일 주소를 입력해주세요" })}
+              type="text"
+              id="userId"
+              {...register("userId", { required: "이메일 주소를 입력해주세요" })}
               className="bg-gray-50  mb-2 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               placeholder="이메일 주소를 입력해주세요"
             />
-            <span className="text-[#FF6E6E] font-bold text-sm">{errors.email?.message}</span>
+            <span className="text-[#FF6E6E] font-bold text-sm">{errors.userId?.message}</span>
           </div>
           <div>
             <label htmlFor="password" className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">

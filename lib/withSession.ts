@@ -2,7 +2,7 @@ import { withIronSessionApiRoute } from "iron-session/next";
 
 declare module "iron-session" {
   interface IronSessionData {
-    user?: { email: any };
+    user?: { userId: any };
   }
 }
 

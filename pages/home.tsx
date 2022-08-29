@@ -19,7 +19,7 @@ export default function Home() {
 
   return (
     <>
-      <h1>{data?.user.email}</h1>
+      <h1>어서오세요 {data?.user.userId}님</h1>
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <input type="text" {...register("tweets", { required: "이메일 주소를 입력해주세요" })} />
       </form>

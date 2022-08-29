@@ -3,10 +3,10 @@ import withHandler from "../../lib/withHandler";
 import bcrypt from "bcryptjs";
 import db from "../../lib/db";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { email, password } = req.body;
+  const { userId, password } = req.body;
   await db.user.create({
     data: {
-      email,
+      userId,
       password: bcrypt.hashSync(password, 10),
     },
   });
