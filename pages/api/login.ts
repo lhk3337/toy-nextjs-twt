@@ -8,11 +8,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { userId, password } = req.body;
 
   const user = await db.user.findUnique({ where: { userId } });
+  if (!user) {
+    res.json({
+      ok: false,
+    });
+    return res.status(404).end();
+  }
 
   const encapPassWord: any = user?.password;
   const same = bcrypt.compareSync(password, encapPassWord);
-  if (!user) return res.status(404).json({ ok: false });
-
   if (!same) {
     res.json({
       ok: false,

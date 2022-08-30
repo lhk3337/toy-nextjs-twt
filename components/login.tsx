@@ -58,11 +58,16 @@ export default function Login({ eventClick }: EventClickProps) {
             <input
               type="text"
               id="userId"
-              {...register("userId", { required: "이메일 주소를 입력해주세요" })}
+              {...register("userId", {
+                required: "아이디를 입력해주세요",
+              })}
               className="bg-gray-50  mb-2 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-              placeholder="이메일 주소를 입력해주세요"
+              placeholder="아이디를 입력해주세요"
             />
             <span className="text-[#FF6E6E] font-bold text-sm">{errors.userId?.message}</span>
+            {/* <p className="text-[#FF6E6E] font-bold text-sm">
+              {loginData?.ok === false ? "해당 아이디가 없습니다. 생성해주세요" : null}
+            </p> */}
           </div>
           <div>
             <label htmlFor="password" className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">
@@ -79,9 +84,9 @@ export default function Login({ eventClick }: EventClickProps) {
               className="bg-gray-50 border border-gray-300 mb-2 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             />
             <span className="text-[#FF6E6E] font-bold text-sm">{errors.password?.message}</span>
-            <p className="text-[#FF6E6E] font-bold text-sm">
-              {loginData?.ok === false ? "비밀번호가 틀렸습니다. 다시 입력해주세요" : null}
-            </p>
+            {/* <p className="text-[#FF6E6E] font-bold text-sm">
+              {loginData?.password === false ? "비밀번호가 틀렸습니다. 다시 입력해주세요" : null}
+            </p> */}
           </div>
 
           <button
