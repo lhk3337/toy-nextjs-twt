@@ -8,11 +8,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { userId, password } = req.body;
 
   const user = await db.user.findUnique({ where: { userId } });
+
   if (!user) {
-    res.json({
+    return res.json({
       ok: false,
+      message: "해당 아이디가 없습니다. 아이디를 생성해주세요",
     });
-    return res.status(404).end();
   }
 
   const encapPassWord: any = user?.password;
@@ -20,16 +21,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!same) {
     res.json({
       ok: false,
+      message: "비밀번호가 틀렸습니다. 다시 입력해주세요",
     });
-    return res.status(404).end();
   }
   req.session.user = {
     userId: user.userId,
   }; // 세션 선언
   await req.session.save(); // 세션 저장
-  res.json({
-    ok: true,
-  });
-  return res.status(200).end();
+
+  return res.status(200).json({ ok: true });
 }
 export default withApiSession(handler);
