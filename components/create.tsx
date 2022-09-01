@@ -1,33 +1,43 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/router";
 import useMutation from "../lib/useMutation";
+import { useEffect } from "react";
 
 interface IUser {
   password: string;
   userId: string;
   confirmpassword: string;
+  createErrorResult: string;
 }
 export default function Create({ eventClick }: any) {
-  const [enter, { data: errorData }] = useMutation("/api/create");
+  const [enter, { data: createData }] = useMutation("/api/create");
 
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors },
-  } = useForm<IUser>();
+  } = useForm<IUser>({ mode: "onChange" });
 
   const router = useRouter();
 
   const onSubmit: SubmitHandler<IUser> = (data) => {
     const { password, confirmpassword } = data;
-
+    // 일단 아이디가 중복인지 확인 후 만일 중복이 발생하지 않으면 패스워드들을 비교 후 같게 되면 router.push 처리
     if (password === confirmpassword) {
       enter(data);
-      router.push("/?modalId=login");
     } else {
       alert("비밀번호가 일치하지 않습니다.");
     }
   };
+  useEffect(() => {
+    if (createData?.create) {
+      router.push("/?modalId=login");
+    } else if (!createData?.create && createData?.message) {
+      setError("createErrorResult", { message: createData?.message });
+    }
+  }, [createData, router, setError]);
 
   const onInValid = () => {
     console.log("Invalid");
@@ -51,14 +61,14 @@ export default function Create({ eventClick }: any) {
               {...register("userId", {
                 required: "필수 정보 입니다.",
                 minLength: { message: "5자 이상의 아이디를 입력해 주세요", value: 5 },
+                onChange: () => clearErrors("createErrorResult"),
               })}
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               placeholder="아이디를 입력해주세요"
             />
-            <span className="text-[#FF6E6E] font-bold text-sm">{errors.userId?.message}</span>
-            <p className="text-[#FF6E6E] font-bold text-sm mt-2">
-              {errorData?.error ? "이미 사용중인 아이디 입니다. 다른 아이디를 사용해주세요" : null}
-            </p>
+            <span className="text-[#FF6E6E] font-bold text-sm mt-2 block">
+              {errors.createErrorResult ? errors.createErrorResult.message : errors.userId?.message}
+            </span>
           </div>
           <div>
             <label htmlFor="password" className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">
@@ -74,7 +84,7 @@ export default function Create({ eventClick }: any) {
               })}
               className="bg-gray-50 border border-gray-300 mb-2 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             />
-            <span className="text-[#FF6E6E]  font-bold text-sm">{errors.password?.message}</span>
+            <span className="text-[#FF6E6E] font-bold text-sm mt-2 block">{errors.password?.message}</span>
           </div>
           <div>
             <label htmlFor="password" className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">
@@ -90,7 +100,7 @@ export default function Create({ eventClick }: any) {
               })}
               className="bg-gray-50 border border-gray-300 mb-2 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             />
-            <span className="text-[#FF6E6E]  font-bold text-sm">{errors.confirmpassword?.message}</span>
+            <span className="text-[#FF6E6E] font-bold text-sm mt-2 block">{errors.confirmpassword?.message}</span>
           </div>
           <button
             type="submit"
