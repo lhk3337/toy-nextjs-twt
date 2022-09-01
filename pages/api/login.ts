@@ -12,7 +12,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!user) {
     return res.json({
       ok: false,
-      message: "해당 아이디가 없습니다. 아이디를 생성해주세요",
+      IdErrorMsg: "해당 아이디가 없습니다. 아이디를 생성해주세요",
     });
   }
 
@@ -21,7 +21,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!same) {
     res.json({
       ok: false,
-      message: "비밀번호가 틀렸습니다. 다시 입력해주세요",
+      passwordErrorMsg: "비밀번호가 틀렸습니다. 다시 입력해주세요",
     });
   }
   req.session.user = {

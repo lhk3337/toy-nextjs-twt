@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import useMutation from "../lib/useMutation";
 import { useRouter } from "next/router";
@@ -7,10 +7,14 @@ interface EventClickProps {
 }
 interface MutationResult {
   ok: boolean;
+  passwordErrorMsg: string;
+  IdErrorMsg: string;
 }
 interface IUser {
   userId: string;
   password: string;
+  IdErrorResult?: string;
+  passErrorResult?: string;
 }
 export default function Login({ eventClick }: EventClickProps) {
   const [enter, { data: loginData }] = useMutation<MutationResult>("/api/login");
@@ -19,8 +23,10 @@ export default function Login({ eventClick }: EventClickProps) {
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors },
-  } = useForm<IUser>();
+  } = useForm<IUser>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<IUser> = (data) => {
     enter(data);
@@ -29,8 +35,11 @@ export default function Login({ eventClick }: EventClickProps) {
   useEffect(() => {
     if (loginData?.ok) {
       router.push("/home");
+    } else if ((!loginData?.ok && loginData?.IdErrorMsg) || loginData?.passwordErrorMsg) {
+      setError("IdErrorResult", { message: loginData?.IdErrorMsg });
+      setError("passErrorResult", { message: loginData?.passwordErrorMsg });
     }
-  }, [loginData, router]);
+  }, [loginData, router, setError]);
 
   return (
     <div className="w-96 max-w-2xl mx-auto">
@@ -60,14 +69,14 @@ export default function Login({ eventClick }: EventClickProps) {
               id="userId"
               {...register("userId", {
                 required: "아이디를 입력해주세요",
+                onChange: () => clearErrors("IdErrorResult"),
               })}
               className="bg-gray-50  mb-2 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               placeholder="아이디를 입력해주세요"
             />
-            <span className="text-[#FF6E6E] font-bold text-sm">{errors.userId?.message}</span>
-            {/* <p className="text-[#FF6E6E] font-bold text-sm">
-              {loginData?.ok === false ? "해당 아이디가 없습니다. 생성해주세요" : null}
-            </p> */}
+            <span className="text-[#FF6E6E] font-bold text-sm">
+              {errors.IdErrorResult ? errors.IdErrorResult.message : errors.userId?.message}
+            </span>
           </div>
           <div>
             <label htmlFor="password" className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">
@@ -80,13 +89,13 @@ export default function Login({ eventClick }: EventClickProps) {
               {...register("password", {
                 required: "비밀번호를 입력해주세요",
                 minLength: { message: "비밀번호를 10글자 이상 입력해 주세요", value: 10 },
+                onChange: () => clearErrors("passErrorResult"),
               })}
               className="bg-gray-50 border border-gray-300 mb-2 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             />
-            <span className="text-[#FF6E6E] font-bold text-sm">{errors.password?.message}</span>
-            {/* <p className="text-[#FF6E6E] font-bold text-sm">
-              {loginData?.password === false ? "비밀번호가 틀렸습니다. 다시 입력해주세요" : null}
-            </p> */}
+            <span className="text-[#FF6E6E] font-bold text-sm">
+              {errors.passErrorResult ? errors.passErrorResult.message : errors.password?.message}
+            </span>
           </div>
 
           <button
