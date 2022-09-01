@@ -74,7 +74,7 @@ export default function Login({ eventClick }: EventClickProps) {
               className="bg-gray-50  mb-2 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               placeholder="아이디를 입력해주세요"
             />
-            <span className="text-[#FF6E6E] font-bold text-sm">
+            <span className="text-[#FF6E6E] font-bold text-sm mt-2 block">
               {errors.IdErrorResult ? errors.IdErrorResult.message : errors.userId?.message}
             </span>
           </div>
@@ -93,7 +93,7 @@ export default function Login({ eventClick }: EventClickProps) {
               })}
               className="bg-gray-50 border border-gray-300 mb-2 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             />
-            <span className="text-[#FF6E6E] font-bold text-sm">
+            <span className="text-[#FF6E6E] font-bold text-sm mt-2 block">
               {errors.passErrorResult ? errors.passErrorResult.message : errors.password?.message}
             </span>
           </div>
