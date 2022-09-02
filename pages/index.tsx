@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import LoginModal from "../components/login";
-import CreateModal from "../components/create";
+import LoginModal from "../components/modal/login";
+import CreateModal from "../components/modal/create";
 
 export default () => {
   const [modalIsOpen, setIsOpen] = React.useState<Boolean>(false);
