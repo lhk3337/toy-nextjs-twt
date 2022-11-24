@@ -1,72 +1,70 @@
-import React from "react";
-import Link from "next/link";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/router";
-import LoginModal from "../components/modal/login";
-import CreateModal from "../components/modal/create";
+import useSWR from "swr";
+import { useEffect } from "react";
+import useUser from "../lib/useUser";
+import { ProfileResponse } from "../lib/useUser";
+interface IUser {
+  tweets: string;
+}
 
-export default () => {
-  const [modalIsOpen, setIsOpen] = React.useState<Boolean>(false);
-  const router = useRouter();
-
-  const onClickBtn = () => {
-    setIsOpen(false);
-    router.push("/");
+export default function Home() {
+  const onSubmit: SubmitHandler<IUser> = (data) => {
+    console.log(data);
   };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IUser>();
+
+  // const [confirmToken, { loading: tokenLoading, data: UserData }] = useMutation<MutationResult>("/api/me");
+
+  const router = useRouter();
+  const { data, error } = useSWR<ProfileResponse>("api/me");
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (error) {
+      router.replace("/");
+    }
+  }, [router, error]);
+
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div
-        className={`${
-          router.query.modalId === "login" || router.query.modalId === "create" || modalIsOpen
-            ? "blur-[1.8px] pointer-events-none select-none"
-            : "blur-none"
-        } w-full flex flex-col-reverse md:flex-row justify-between `}
-      >
-        <div className="w-full h-screen bg-[url('https://abs.twimg.com/sticky/illustrations/lohp_1302x955.png')] flex justify-center items-center">
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            className="r-k200y r-13v1u17 r-4qtqp9 r-yyyyoo r-5sfk15 r-dnmrzs r-kzbkwu r-bnwqim r-1plcrui r-lrvibr fill-current z-40 text-white w-[350px] h-[350px]"
-          >
-            <g>
-              <path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"></path>
-            </g>
-          </svg>
-        </div>
-        <div className="px-16 py-32 bg-black text-white w-full flex flex-col items-center justify-center md:block">
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            className="r-k200y r-13v1u17 r-4qtqp9 r-yyyyoo r-5sfk15 r-dnmrzs r-kzbkwu r-bnwqim r-1plcrui r-lrvibr fill-current text-white w-12 h-12"
-          >
-            <g>
-              <path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"></path>
-            </g>
-          </svg>
-          <h1 className="text-[42px] md:text-[34px] lg:text-[50px] xl:text-[64px] font-bold my-12">
-            지금 일어나고 있는 일
-          </h1>
-          <h2 className="text-[20px] md:text-[23px] mb-12">오늘 트위터에 가입하세요.</h2>
-          <Link href={`/?modalId=create`} as={`/create-account`}>
-            <a className="p-3 px-[105px] rounded-3xl  bg-sky-500 font-bold hover:bg-sky-600">계정 만들기</a>
-          </Link>
-          <h2 className="text-[17px] mt-20 mb-10">이미 트위터에 가입하셨나요?</h2>
-          <Link href={`/?modalId=login`} as={`/log-in`}>
-            <a className="p-3 px-[120px] rounded-3xl border-slate-400 border-[0.5px] text-sky-500 font-bold  hover:bg-[rgb(29,155,240)]/10">
-              로그인
-            </a>
-          </Link>
-        </div>
+    <div className="bg-black  max-w-2xl mx-auto border-[#2f3336] border-x-2 text-white py-4">
+      <h1 className="text-white mt-5 ml-8 font-bold text-lg">{data?.user?.userId}</h1>
+      <div className="flex justify-end m-4">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <input
+            type="text"
+            placeholder="무슨 일이 일어나고 있나요?"
+            {...register("tweets")}
+            className="w-[500px] text-2xl m-4 mr-0 h-10 focus:outline-none bg-transparent border-b-2 border-[#2f3336] placeholder:text-[#2f3336] placeholder:font-bold placeholder:text-2xl"
+          />
+          <div className=" text-white ml-[440px] my-2 py-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-3xl text-sm  text-center dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer">
+            <button>트윗하기</button>
+          </div>
+        </form>
       </div>
-      {router.query.modalId === "login" || modalIsOpen ? (
-        <div className="flex items-center justify-center absolute mt-[-900px] md:mt-0">
-          <LoginModal eventClick={onClickBtn} />
-        </div>
-      ) : null}
-      {router.query.modalId === "create" || modalIsOpen ? (
-        <div className="flex items-center justify-center absolute mt-[-900px] md:mt-0">
-          <CreateModal eventClick={onClickBtn} />
-        </div>
-      ) : null}
+      <div className="border-b-2 border-[#2f3336]" />
+      <div className="">
+        {Array(18)
+          .fill(1)
+          .map((_, v) => {
+            return (
+              <>
+                <p key={v} className="p-8">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste atque omnis quia quae vitae accusamus
+                  reiciendis fuga deserunt tempore consectetur veniam voluptas at rerum vel illum, reprehenderit maiores
+                  culpa possimus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex ea molestiae, ad quia
+                  assumenda nesciunt quos architecto deserunt magni nihil laudantium quae eveniet totam ab perspiciatis
+                  tenetur facilis ducimus dicta.
+                </p>
+                <div className="border-b-2 border-[#2f3336]" />
+              </>
+            );
+          })}
+      </div>
     </div>
   );
-};
+}
