@@ -10,7 +10,7 @@ export default function Layout({ title, children }: LayoutProps) {
   return (
     <main>
       <Head>
-        <title>Tweet</title>
+        <title>{title} | Tweet</title>
       </Head>
       <div className="flex justify-center">
         <LeftNav />
