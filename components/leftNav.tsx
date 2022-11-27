@@ -2,7 +2,7 @@ import Link from "next/link";
 import Button from "@components/button";
 export default function LeftNav() {
   return (
-    <div className="flex pt-10 px-4 sm:p-10 flex-col sm:w-72 justify-between">
+    <div className="flex pt-10 px-2 sm:p-10 flex-col sm:w-72 justify-between">
       <div className="flex flex-col space-y-16">
         <Link href="/">
           <a className="flex justify-center sm:justify-start">
