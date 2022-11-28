@@ -1,19 +1,17 @@
-export default function TwtItem() {
+import { TwtListItem } from "@components/twt-list";
+
+export default function TwtItem({ name, text, date }: TwtListItem) {
   return (
     <>
       <div className="p-3 flex flex-col">
-        <span className="text-gray-500 text-sm text-right">22.11.25. 오후 4:31</span>
-        <div className="px-2 flex justify-between">
-          <div className="mr-5">
+        <span className="text-gray-500 text-sm text-right">{date}</span>
+        <div className="px-2 flex">
+          <div className="mr-6">
             <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
           </div>
           <div className="flex flex-col">
-            <span className="text-lg font-semibold mb-2">holim</span>
-            <span className="text-sm">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste atque omnis quia quae vitae accusamus
-              reiciendis fuga deserunt tempore consectetur veniam voluptas at rerum vel illum, reprehenderit maiores
-              culpa possimus. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </span>
+            <span className="text-lg font-semibold mb-2">{name}</span>
+            <span className="text-sm">{text}</span>
             <div className="p-4 flex space-x-20 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

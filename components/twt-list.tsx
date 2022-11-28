@@ -1,16 +1,19 @@
 import TwtItem from "./twt-item";
-export default function TwtList() {
+export interface TwtListItem {
+  id: number;
+  name: string;
+  text: string;
+  date: string;
+}
+interface TwtListProps {
+  data: TwtListItem[];
+}
+export default function TwtList({ data }: TwtListProps) {
   return (
     <>
-      {Array(5)
-        .fill(1)
-        .map((_, v) => {
-          return (
-            <>
-              <TwtItem key={v} />
-            </>
-          );
-        })}
+      {data.map((value: TwtListItem) => {
+        return <TwtItem {...value} key={value.id} />;
+      })}
     </>
   );
 }

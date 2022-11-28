@@ -33,6 +33,15 @@ export default function Home() {
     }
   }, [router, error]);
 
+  const fakeData = [
+    { id: 1, name: "holim", date: "22.11.25. 오후 4:31", text: "hello world" },
+    { id: 2, name: "martin", date: "22.11.20. 오후 4:31", text: "before and after being denied dino" },
+    { id: 3, name: "katie", date: "22.10.02. 오전 4:31", text: "A Few Humble Cinema Lovers" },
+    { id: 4, name: "Saltydkdan", date: "22.12.25. 오후 4:31", text: "I need for shiny charm" },
+    { id: 5, name: "Cinema Tweets", date: "22.9.25. 오후 4:21", text: "god bless you" },
+    { id: 6, name: "Tortie", date: "22.4.25. 오후 1:34", text: "Am I doing this challenge right?" },
+  ];
+
   return (
     <Layout title="Home">
       <div className="p-5 pt-3">
@@ -43,18 +52,18 @@ export default function Home() {
             </div>
             <textarea
               placeholder="무슨 일이 일어나고 있나요?"
-              rows={4}
+              rows={3}
               {...register("tweets")}
-              className="text-2xl resize-none w-full focus:outline-none bg-transparent placeholder:text-[#2f3336] placeholder:font-semibold placeholder:text-2xl"
+              className="text-xl resize-none w-full scrollbar-hide focus:outline-none bg-transparent placeholder:text-[#2f3336] placeholder:font-semibold placeholder:text-xl"
             />
           </div>
-          <div className="mt-5 flex justify-end">
+          <div className="flex justify-end">
             <Button btnName="Tweet" />
           </div>
         </form>
       </div>
       <div className="border-b-2 border-[#2f3336]" />
-      <TwtList />
+      <TwtList data={fakeData} />
     </Layout>
   );
 }
