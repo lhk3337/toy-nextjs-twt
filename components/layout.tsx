@@ -14,11 +14,11 @@ export default function Layout({ title, children }: LayoutProps) {
       </Head>
       <div className="flex justify-center">
         <LeftNav />
-        <div className="h-screen overflow-y-scroll scrollbar-hide w-[600px] border-[#2f3336] border-x-2">
-          <div className="text-white font-bold text-lg m-6 mb-8">
+        <div className="h-screen overflow-y-scroll scrollbar-hide w-[600px]  border-[#2f3336] border-x-2 ">
+          <div className="text-white font-bold text-lg px-6 py-3 sticky top-0 bg-black/90">
             <span>{title}</span>
           </div>
-          <div className=" mx-auto text-white">{children}</div>
+          <div className="text-white">{children}</div>
         </div>
       </div>
     </main>
