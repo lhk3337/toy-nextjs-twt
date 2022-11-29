@@ -2,9 +2,10 @@ interface Props {
   btnName: string;
   mid?: boolean;
   responsive?: boolean;
+  [key: string]: any;
 }
 import { cls } from "lib/util";
-export default function Button({ btnName, mid, responsive }: Props) {
+export default function Button({ btnName, mid, responsive, onClick }: Props) {
   return (
     <>
       {responsive ? (
@@ -14,6 +15,7 @@ export default function Button({ btnName, mid, responsive }: Props) {
             mid ? "py-4" : "py-2 px-6",
             "w-12 h-12 rounded-full"
           )}
+          onClick={onClick}
         >
           <div className="flex items-center justify-center">
             <div className="sm:hidden">
