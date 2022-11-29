@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Button from "@components/button";
-export default function LeftNav() {
+interface LeftNavProps {
+  onModalTwt: () => void;
+}
+export default function LeftNav({ onModalTwt }: LeftNavProps) {
   return (
     <div className="flex pt-10 px-2 sm:p-10 flex-col sm:w-72 justify-between">
       <div className="flex flex-col space-y-16">
@@ -68,7 +71,7 @@ export default function LeftNav() {
             <div className=" text-white text-[20px] ml-4 hidden sm:block">Profile</div>
           </a>
         </Link>
-        <Button btnName="Tweet" mid responsive />
+        <Button btnName="Tweet" mid responsive onClick={onModalTwt} />
       </div>
       <div className="flex mb-5 items-center justify-center sm:justify-between">
         <div className="flex items-center justify-between">
