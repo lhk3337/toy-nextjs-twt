@@ -12,20 +12,22 @@ interface IUser {
 }
 
 export default function Home() {
-  const onSubmit: SubmitHandler<IUser> = (data) => {
-    console.log(data);
-  };
+  const { data, error } = useSWR<ProfileResponse>("api/me");
+  const { user } = useUser();
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<IUser>();
 
+  const onSubmit: SubmitHandler<IUser> = (data) => {
+    console.log(data);
+    reset();
+  };
   // const [confirmToken, { loading: tokenLoading, data: UserData }] = useMutation<MutationResult>("/api/me");
-
-  const router = useRouter();
-  const { data, error } = useSWR<ProfileResponse>("api/me");
-  const { user } = useUser();
 
   useEffect(() => {
     if (error) {
@@ -44,7 +46,7 @@ export default function Home() {
 
   return (
     <Layout title="Home">
-      <div className="p-5 pt-3">
+      <div className="p-5 pt-8">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex justify-between">
             <div className="mr-5">
