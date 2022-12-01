@@ -16,7 +16,7 @@ export default function Layout({ title, children, canGoBack }: LayoutProps) {
   const router = useRouter();
 
   const onClick = () => {
-    router.push("/");
+    router.back();
   };
   return (
     <main>
