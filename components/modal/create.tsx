@@ -9,7 +9,10 @@ interface IUser {
   confirmpassword: string;
   createErrorResult: string;
 }
-export default function Create({ eventClick }: any) {
+interface CreateProps {
+  eventClick: () => void;
+}
+export default function Create({ eventClick }: CreateProps) {
   const [enter, { data: createData }] = useMutation("/api/create");
 
   const {

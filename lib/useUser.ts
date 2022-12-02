@@ -2,7 +2,7 @@ import { User } from "@prisma/client";
 
 import useSWR from "swr";
 
-interface ProfileResponse {
+export interface ProfileResponse {
   ok: boolean;
   user: User;
 }
