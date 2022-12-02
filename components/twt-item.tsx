@@ -1,11 +1,26 @@
 import { TwtListItem } from "@components/twt-list";
 import Link from "next/link";
 
-export default function TwtItem({ id, name, text, date }: TwtListItem) {
+export default function TwtItem({ id, name, text, date, onLinked }: TwtListItem) {
   return (
     <>
-      <Link href={`/tweet/${id}`}>
-        <a className="p-3 flex flex-col">
+      {onLinked ? (
+        <Link href={`/tweet/${id}`}>
+          <a className="px-3 py-5 flex flex-col relative">
+            <span className="text-gray-500 text-sm absolute right-4">{date}</span>
+            <div className="px-2 flex">
+              <div className="mr-6">
+                <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-lg font-semibold mb-2">{name}</span>
+                <span className="text-sm">{text}</span>
+              </div>
+            </div>
+          </a>
+        </Link>
+      ) : (
+        <div className="px-3 py-5 flex flex-col">
           <span className="text-gray-500 text-sm text-right">{date}</span>
           <div className="px-2 flex">
             <div className="mr-6">
@@ -16,9 +31,10 @@ export default function TwtItem({ id, name, text, date }: TwtListItem) {
               <span className="text-sm">{text}</span>
             </div>
           </div>
-        </a>
-      </Link>
-      <div className="p-4 pl-24 flex space-x-20 ">
+        </div>
+      )}
+      {onLinked || <div className="border-b-2 border-[#2f3336] mt-5" />}
+      <div className="p-4 pl-24 flex space-x-20">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

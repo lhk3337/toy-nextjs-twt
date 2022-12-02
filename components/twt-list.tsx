@@ -4,6 +4,7 @@ export interface TwtListItem {
   name: string;
   text: string;
   date: string;
+  onLinked?: boolean;
 }
 interface TwtListProps {
   data: TwtListItem[];
@@ -12,7 +13,7 @@ export default function TwtList({ data }: TwtListProps) {
   return (
     <>
       {data.map((value: TwtListItem) => {
-        return <TwtItem {...value} key={value.id} />;
+        return <TwtItem {...value} key={value.id} onLinked />;
       })}
     </>
   );
