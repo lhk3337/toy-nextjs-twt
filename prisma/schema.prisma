@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity", "filteredRelationCount"]
 }
 
 datasource db {
@@ -16,4 +17,44 @@ model User {
   password  String?  @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  avatar    String   @default("")
+  name      String   @default("")
+  location  String   @default("")
+  website   String   @default("")
+  bio       String   @default("")
+  posts     Post[]
+  answers   Answer[]
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  tweet     String
+  answers   Answer[]
+  Likes     Likes[]
+}
+
+model Answer {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int?
+  answer    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Likes     Likes[]
+  userId    Int
+}
+
+model Likes {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  post      Post     @relation(fields: [postId], references: [id])
+  answer    Answer   @relation(fields: [answerId], references: [id])
+  postId    Int
+  answerId  Int
 }
