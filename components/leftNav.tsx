@@ -131,12 +131,12 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
         </Link>
         <Button btnName="Tweet" mid responsive onClick={onModalTwt} />
       </div>
-      <div className="flex mb-5 items-center justify-center sm:justify-between">
+      <div className="flex relative mb-5 items-center justify-center sm:justify-between">
         <div className="flex items-center justify-between">
           <div className="w-10 h-10 rounded-full bg-slate-600 sm:mr-4" />
           <span className="text-white hidden sm:block">holim</span>
         </div>
-        <div className="hidden sm:block">
+        <div className="hidden right-0 absolute cursor-pointer h-10 w-10 hover:rounded-full sm:flex justify-center items-center hover:bg-[#eff3f41a] hover:transition hover:duration-300">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="24" height="24">
             <g fill="#E7E9EA">
               <path
