@@ -2,11 +2,18 @@ import Link from "next/link";
 import Button from "@components/button";
 import { useRouter } from "next/router";
 import { cls } from "lib/util";
+import { useState } from "react";
 interface LeftNavProps {
   onModalTwt: () => void;
 }
 export default function LeftNav({ onModalTwt }: LeftNavProps) {
   const router = useRouter();
+  const [logout, setLogout] = useState<boolean>(true);
+
+  const onLogout = () => {
+    setLogout((prev) => !prev);
+  };
+
   return (
     <div className="flex pt-10 px-2 sm:p-10 flex-col sm:w-72 justify-between">
       <div className="flex flex-col space-y-16">
@@ -136,7 +143,10 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
           <div className="w-10 h-10 rounded-full bg-slate-600 sm:mr-4" />
           <span className="text-white hidden sm:block">holim</span>
         </div>
-        <div className="hidden right-0 absolute cursor-pointer h-10 w-10 hover:rounded-full sm:flex justify-center items-center hover:bg-[#eff3f41a] hover:transition hover:duration-300">
+        <div
+          onClick={onLogout}
+          className="hidden right-0 absolute cursor-pointer h-10 w-10 hover:rounded-full sm:flex justify-center items-center hover:bg-[#eff3f41a] hover:transition hover:duration-300"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="24" height="24">
             <g fill="#E7E9EA">
               <path
@@ -145,6 +155,28 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
               ></path>
             </g>
           </svg>
+        </div>
+        <div
+          className={cls(
+            "pl-8 cursor-pointer items-center text-white absolute -top-28 -left-6 bg-black w-72 h-16 rounded-xl shadow-[0_0_5px_2px_rgba(255,255,255,0.26)] hover:bg-[rgb(22,24,28)]",
+            logout ? "hidden" : "flex"
+          )}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            />
+          </svg>
+          <span className="ml-4 text-lg font-bold">Logout</span>
         </div>
       </div>
     </div>
