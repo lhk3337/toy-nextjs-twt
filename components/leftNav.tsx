@@ -3,6 +3,7 @@ import Button from "@components/button";
 import { useRouter } from "next/router";
 import { cls } from "@libs/client/util";
 import { useEffect, useState, useRef } from "react";
+import useOnClickOutside from "@libs/client/useOnClickOutside";
 interface LeftNavProps {
   onModalTwt: () => void;
 }
@@ -10,16 +11,9 @@ interface LeftNavProps {
 export default function LeftNav({ onModalTwt }: LeftNavProps) {
   const router = useRouter();
   const [logout, setLogout] = useState<boolean>(false);
-  const btnRef = useRef<SVGSVGElement>(null);
-  useEffect(() => {
-    const closeDropdown = (e: any) => {
-      if (e.path[0] !== btnRef.current) {
-        setLogout(false);
-      }
-    };
-    document.body.addEventListener("click", closeDropdown);
-    return () => document.body.removeEventListener("click", closeDropdown);
-  }, []);
+  const btnRef = useRef(null);
+
+  useOnClickOutside(btnRef, () => setLogout(false));
 
   return (
     <div className="flex pt-10 px-2 sm:p-10 flex-col sm:w-72 justify-between">
