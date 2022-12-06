@@ -1,4 +1,4 @@
-import LoginModal from "../components/modal/login";
+import LoginModal from "@components/modal/login";
 import { useRouter } from "next/router";
 export default function LoginPage() {
   const router = useRouter();

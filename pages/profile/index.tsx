@@ -1,6 +1,6 @@
 import Layout from "@components/layout";
 import TwtList from "@components/twt-list";
-import { cls } from "lib/util";
+import { cls } from "@libs/client/util";
 import { useRouter } from "next/router";
 import { useState } from "react";
 export default function Profile() {

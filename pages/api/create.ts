@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import withHandler from "../../lib/withHandler";
+import withHandler from "@libs/server/withHandler";
 import bcrypt from "bcryptjs";
-import db from "../../lib/db";
+import db from "@libs/server/db";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
     body: { userId, password },

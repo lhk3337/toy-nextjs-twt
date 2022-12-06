@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/router";
-import useMutation from "../../lib/useMutation";
+import useMutation from "@libs/client/useMutation";
 import { useEffect } from "react";
 
 interface IUser {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import useMutation from "../../lib/useMutation";
+import useMutation from "@libs/client/useMutation";
 import { useRouter } from "next/router";
 interface EventClickProps {
   eventClick: () => void;

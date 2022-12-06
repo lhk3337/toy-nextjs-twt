@@ -4,7 +4,7 @@ interface Props {
   responsive?: boolean;
   [key: string]: any;
 }
-import { cls } from "lib/util";
+import { cls } from "@libs/client/util";
 export default function Button({ btnName, mid, responsive, onClick }: Props) {
   return (
     <>

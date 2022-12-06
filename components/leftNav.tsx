@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Button from "@components/button";
 import { useRouter } from "next/router";
-import { cls } from "lib/util";
+import { cls } from "@libs/client/util";
 import { useEffect, useState, useRef } from "react";
 interface LeftNavProps {
   onModalTwt: () => void;

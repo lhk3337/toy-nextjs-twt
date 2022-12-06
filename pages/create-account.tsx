@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import Create from "../components/modal/create";
+import Create from "@components/modal/create";
 export default function CreatePage() {
   const router = useRouter();
   const onClickBtn = () => {

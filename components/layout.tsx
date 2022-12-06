@@ -3,7 +3,7 @@ import Head from "next/head";
 import { ReactNode, useState } from "react";
 import LeftNav from "@components/leftNav";
 import { useRouter } from "next/router";
-import { cls } from "lib/util";
+import { cls } from "@libs/client/util";
 interface LayoutProps {
   title: string;
   children: ReactNode;
