@@ -2,17 +2,24 @@ import Link from "next/link";
 import Button from "@components/button";
 import { useRouter } from "next/router";
 import { cls } from "lib/util";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 interface LeftNavProps {
   onModalTwt: () => void;
 }
+
 export default function LeftNav({ onModalTwt }: LeftNavProps) {
   const router = useRouter();
-  const [logout, setLogout] = useState<boolean>(true);
-
-  const onLogout = () => {
-    setLogout((prev) => !prev);
-  };
+  const [logout, setLogout] = useState<boolean>(false);
+  const btnRef = useRef<SVGSVGElement>(null);
+  useEffect(() => {
+    const closeDropdown = (e: any) => {
+      if (e.path[0] !== btnRef.current) {
+        setLogout(false);
+      }
+    };
+    document.body.addEventListener("click", closeDropdown);
+    return () => document.body.removeEventListener("click", closeDropdown);
+  }, []);
 
   return (
     <div className="flex pt-10 px-2 sm:p-10 flex-col sm:w-72 justify-between">
@@ -144,13 +151,22 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
           <span className="text-white hidden sm:block">holim</span>
         </div>
         <div
-          onClick={onLogout}
-          className="hidden right-0 absolute cursor-pointer h-10 w-10 hover:rounded-full sm:flex justify-center items-center hover:bg-[#eff3f41a] hover:transition hover:duration-300"
+          onClick={() => setLogout((prev) => !prev)}
+          className="hidden right-0 absolute cursor-pointer h-10 w-10 hover:rounded-full sm:flex 
+          justify-center items-center hover:bg-[#eff3f41a] hover:transition hover:duration-300"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="24" height="24">
+          <svg
+            ref={btnRef}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            width="24"
+            height="24"
+          >
             <g fill="#E7E9EA">
               <path
-                d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"
+                d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2
+                .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"
                 fill="#E7E9EA"
               ></path>
             </g>
@@ -158,8 +174,9 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
         </div>
         <div
           className={cls(
-            "pl-8 cursor-pointer items-center text-white absolute -top-28 -left-6 bg-black w-72 h-16 rounded-xl shadow-[0_0_5px_2px_rgba(255,255,255,0.26)] hover:bg-[rgb(22,24,28)]",
-            logout ? "hidden" : "flex"
+            "pl-8 cursor-pointer items-center text-white absolute -top-24 -left-6 bg-black w-72 h-16 rounded-xl",
+            "shadow-[0_0_5px_2px_rgba(255,255,255,0.26)] hover:bg-[rgb(22,24,28)]",
+            logout ? "flex" : "hidden"
           )}
         >
           <svg
