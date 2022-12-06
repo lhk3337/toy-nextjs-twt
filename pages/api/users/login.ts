@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import db from "../../lib/db";
+import db from "@libs/server/db";
 import bcrypt from "bcryptjs";
-import { withApiSession } from "../../lib/withSession";
-import withHandler from "../../lib/withHandler";
+import { withApiSession } from "@libs/server/withSession";
+import withHandler from "@libs/server/withHandler";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { userId, password } = req.body;
@@ -31,4 +31,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   return res.status(200).json({ ok: true });
 }
-export default withApiSession(handler);
+export default withApiSession(withHandler("POST", handler));

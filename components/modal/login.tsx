@@ -17,7 +17,7 @@ interface IUser {
   passErrorResult?: string;
 }
 export default function Login({ eventClick }: EventClickProps) {
-  const [enter, { data: loginData, loading }] = useMutation<MutationResult>("/api/login");
+  const [enter, { data: loginData, loading }] = useMutation<MutationResult>("/api/users/login");
   const router = useRouter();
   const {
     register,

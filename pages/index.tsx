@@ -12,7 +12,7 @@ interface IUser {
 }
 
 export default function Home() {
-  const { data, error } = useSWR<ProfileResponse>("api/me");
+  const { data, error } = useSWR<ProfileResponse>("/api/users/me");
   const { user } = useUser();
   const router = useRouter();
 

@@ -8,7 +8,7 @@ export interface ProfileResponse {
 }
 
 export default function useUser() {
-  const { data, error } = useSWR<ProfileResponse>("/api/me");
+  const { data, error } = useSWR<ProfileResponse>("/api/users/me");
 
   return { user: data?.user, isLoading: !data && !error };
 }

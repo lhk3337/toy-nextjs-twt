@@ -13,7 +13,7 @@ interface CreateProps {
   eventClick: () => void;
 }
 export default function Create({ eventClick }: CreateProps) {
-  const [enter, { data: createData }] = useMutation("/api/create");
+  const [enter, { data: createData }] = useMutation("/api/users/create");
 
   const {
     register,
