@@ -8,7 +8,10 @@ declare module "iron-session" {
 
 const cookieOptions = {
   cookieName: "userSession",
-  password: "haerkfuyagwekuygw4akuy4gt876tgukyga",
+  password: process.env.COOKIE_PASSWORD!,
+  cookieOptions: {
+    secure: process.env.NODE_ENV === "production",
+  },
 };
 export function withApiSession(fn: any) {
   return withIronSessionApiRoute(fn, cookieOptions);
