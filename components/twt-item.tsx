@@ -1,34 +1,39 @@
 import { TwtListItem } from "@components/twt-list";
 import Link from "next/link";
+import Time from "./time";
 
-export default function TwtItem({ id, name, text, date, onLinked }: TwtListItem) {
+export default function TwtItem({ id, user, tweet, updatedAt, onLinked }: TwtListItem) {
   return (
     <>
       {onLinked ? (
         <Link href={`/tweet/${id}`}>
           <a className="px-3 py-5 flex flex-col relative">
-            <span className="text-gray-500 text-sm absolute right-4">{date}</span>
+            <span className="text-gray-500 text-sm absolute right-4">
+              <Time time={new Date(updatedAt)} />
+            </span>
             <div className="px-2 flex">
               <div className="mr-6">
                 <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
               </div>
               <div className="flex flex-col">
-                <span className="text-lg font-semibold mb-2">{name}</span>
-                <span className="text-sm">{text}</span>
+                <span className="text-lg font-semibold mb-2">{user?.userId}</span>
+                <span className="text-sm">{tweet}</span>
               </div>
             </div>
           </a>
         </Link>
       ) : (
         <div className="px-3 py-5 flex flex-col">
-          <span className="text-gray-500 text-sm text-right">{date}</span>
+          <span className="text-gray-500 text-sm text-right">
+            <Time time={new Date(updatedAt)} />
+          </span>
           <div className="px-2 flex">
             <div className="mr-6">
               <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-semibold mb-2">{name}</span>
-              <span className="text-sm">{text}</span>
+              <span className="text-lg font-semibold mb-2">{user?.userId}</span>
+              <span className="text-sm">{tweet}</span>
             </div>
           </div>
         </div>
