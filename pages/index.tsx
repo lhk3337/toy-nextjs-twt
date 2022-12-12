@@ -6,15 +6,24 @@ import useUser from "@libs/client/useUser";
 import { ProfileResponse } from "@libs/client/useUser";
 import Layout from "@components/layout";
 import Button from "@components/button";
-import TwtList from "@components/twt-list";
+import TwtList, { TwtListItem } from "@components/twt-list";
+import useMutation from "@libs/client/useMutation";
+
 interface IUser {
   tweets: string;
 }
 
+interface TweetsResponse {
+  ok: boolean;
+  tweetList: TwtListItem[];
+}
+
 export default function Home() {
-  const { data, error } = useSWR<ProfileResponse>("/api/users/me");
+  // const { data, error } = useSWR<ProfileResponse>("/api/users/me");
   const { user } = useUser();
   const router = useRouter();
+  const { data, mutate, error } = useSWR<TweetsResponse | undefined>("/api/tweets");
+  const [tweetWrite, { loading }] = useMutation("/api/tweets");
 
   const {
     register,
@@ -23,9 +32,18 @@ export default function Home() {
     formState: { errors },
   } = useForm<IUser>();
 
-  const onSubmit: SubmitHandler<IUser> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<IUser> = ({ tweets }) => {
+    if (loading) return;
     reset();
+    mutate(
+      (prev) =>
+        prev && {
+          ...prev,
+          tweetList: [...prev.tweetList, { updatedAt: new Date(), tweet: tweets, user: { ...user } }] as any,
+        },
+      false
+    );
+    tweetWrite({ tweets });
   };
   // const [confirmToken, { loading: tokenLoading, data: UserData }] = useMutation<MutationResult>("/api/me");
 
@@ -34,15 +52,6 @@ export default function Home() {
       router.replace("/");
     }
   }, [router, error]);
-
-  const fakeData = [
-    { id: 1, name: "holim", date: "22.11.25. 오후 4:31", text: "hello world" },
-    { id: 2, name: "martin", date: "22.11.20. 오후 4:31", text: "before and after being denied dino" },
-    { id: 3, name: "katie", date: "22.10.02. 오전 4:31", text: "A Few Humble Cinema Lovers" },
-    { id: 4, name: "Saltydkdan", date: "22.12.25. 오후 4:31", text: "I need for shiny charm" },
-    { id: 5, name: "Cinema Tweets", date: "22.9.25. 오후 4:21", text: "god bless you" },
-    { id: 6, name: "Tortie", date: "22.4.25. 오후 1:34", text: "Am I doing this challenge right?" },
-  ];
 
   return (
     <Layout title="Home">
@@ -65,7 +74,7 @@ export default function Home() {
         </form>
       </div>
       <div className="border-b-2 border-[#2f3336]" />
-      <TwtList data={fakeData} />
+      <TwtList data={data?.tweetList} />
     </Layout>
   );
 }
