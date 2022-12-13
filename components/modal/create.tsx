@@ -90,12 +90,15 @@ export default function Create({ eventClick }: CreateProps) {
             <span className="text-[#FF6E6E] font-bold text-sm mt-2 block">{errors.password?.message}</span>
           </div>
           <div>
-            <label htmlFor="password" className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">
+            <label
+              htmlFor="confirmPassword"
+              className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+            >
               비밀번호 확인
             </label>
             <input
               type="password"
-              id="password"
+              id="confirmpassword"
               placeholder="••••••••"
               {...register("confirmpassword", {
                 required: "비밀번호를 입력해주세요",
