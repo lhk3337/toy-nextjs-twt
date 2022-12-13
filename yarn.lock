@@ -97,10 +97,10 @@
   "resolved" "https://registry.npmjs.org/@prisma/engines-version/-/engines-version-4.7.1-1.272861e07ab64f234d3ffc4094e32bd61775599c.tgz"
   "version" "4.7.1-1.272861e07ab64f234d3ffc4094e32bd61775599c"
 
-"@prisma/engines@4.6.1":
-  "integrity" "sha512-3u2/XxvxB+Q7cMXHnKU0CpBiUK1QWqpgiBv28YDo1zOIJE3FCF8DI2vrp6vuwjGt5h0JGXDSvmSf4D4maVjJdw=="
-  "resolved" "https://registry.npmjs.org/@prisma/engines/-/engines-4.6.1.tgz"
-  "version" "4.6.1"
+"@prisma/engines@4.7.1":
+  "integrity" "sha512-zWabHosTdLpXXlMefHmnouhXMoTB1+SCbUU3t4FCmdrtIOZcarPKU3Alto7gm/pZ9vHlGOXHCfVZ1G7OIrSbog=="
+  "resolved" "https://registry.npmjs.org/@prisma/engines/-/engines-4.7.1.tgz"
+  "version" "4.7.1"
 
 "@swc/helpers@0.4.3":
   "integrity" "sha512-6JrF+fdUK2zbGpJIlN7G3v966PQjyx/dPt1T9km2wj+EUBqgrxCk3uX4Kct16MIm9gGxfKRcfax2hVf5jvlTzA=="
@@ -716,12 +716,12 @@
     "picocolors" "^1.0.0"
     "source-map-js" "^1.0.2"
 
-"prisma@*", "prisma@^4.6.1":
-  "integrity" "sha512-BR4itMCuzrDV4tn3e2TF+nh1zIX/RVU0isKtKoN28ADeoJ9nYaMhiuRRkFd2TZN8+l/XfYzoRKyHzUFXLQhmBQ=="
-  "resolved" "https://registry.npmjs.org/prisma/-/prisma-4.6.1.tgz"
-  "version" "4.6.1"
+"prisma@*", "prisma@^4.7.1":
+  "integrity" "sha512-CCQP+m+1qZOGIZlvnL6T3ZwaU0LAleIHYFPN9tFSzjs/KL6vH9rlYbGOkTuG9Q1s6Ki5D0LJlYlW18Z9EBUpGg=="
+  "resolved" "https://registry.npmjs.org/prisma/-/prisma-4.7.1.tgz"
+  "version" "4.7.1"
   dependencies:
-    "@prisma/engines" "4.6.1"
+    "@prisma/engines" "4.7.1"
 
 "pvtsutils@^1.3.2":
   "integrity" "sha512-+Ipe2iNUyrZz+8K/2IOo+kKikdtfhRKzNpQbruF2URmqPtoqAs8g3xS7TJvFF2GcPXjh7DkqMnpVveRFq4PgEQ=="
