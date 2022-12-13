@@ -15,11 +15,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       IdErrorMsg: "해당 아이디가 없습니다. 아이디를 생성해주세요",
     });
   }
-
-  const encapPassWord: any = user?.password;
-  const same = bcrypt.compareSync(password, encapPassWord);
-  if (!same) {
-    res.json({
+  const encapPassWord = user?.password || "";
+  const passwordComp = bcrypt.compareSync(password, encapPassWord);
+  if (!passwordComp) {
+    return res.json({
       ok: false,
       passwordErrorMsg: "비밀번호가 틀렸습니다. 다시 입력해주세요",
     });
@@ -31,4 +30,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   return res.status(200).json({ ok: true });
 }
-export default withApiSession(withHandler("POST", handler));
+export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));
