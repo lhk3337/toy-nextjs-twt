@@ -35,9 +35,9 @@ export default function Create({ eventClick }: CreateProps) {
     }
   };
   useEffect(() => {
-    if (createData?.create) {
+    if (createData?.ok) {
       router.push("/?modalId=login");
-    } else if (!createData?.create && createData?.message) {
+    } else if (!createData?.ok && createData?.message) {
       setError("createErrorResult", { message: createData?.message });
     }
   }, [createData, router, setError]);

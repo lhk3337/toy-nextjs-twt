@@ -1,29 +1,32 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import withHandler from "@libs/server/withHandler";
+import withHandler, { ResponseType } from "@libs/server/withHandler";
 import bcrypt from "bcryptjs";
 import db from "@libs/server/db";
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+import { withApiSession } from "@libs/server/withSession";
+
+async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) {
   const {
     body: { userId, password },
   } = req;
+  if (req.method === "POST") {
+    const user = await db.user.findUnique({ where: { userId } }); // 유저 확인 유무
 
-  const user = await db.user.findUnique({ where: { userId } }); // 유저 확인 유무
-
-  //유저가 없으면 db에 user정보를 생성 하고 아닐경우 에러 메시지 생성
-  if (!user) {
-    res.json({ create: true });
-    await db.user.create({
-      data: {
-        userId,
-        password: bcrypt.hashSync(password, 10),
-      },
-    });
-  } else {
-    return res.json({ create: false, message: "이미 가입된 아이디 입니다. 다른 아이디를 사용해 주세요" });
+    //유저가 없으면 db에 user정보를 생성 하고 아닐경우 에러 메시지 생성
+    if (!user) {
+      res.json({ ok: true });
+      await db.user.create({
+        data: {
+          userId,
+          password: bcrypt.hashSync(password, 10),
+        },
+      });
+    } else {
+      return res.json({ ok: false, message: "이미 가입된 아이디 입니다. 다른 아이디를 사용해 주세요" });
+    }
   }
 }
 
-export default withHandler("POST", handler); // HOF(고차 함수)
+export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false })); // HOF(고차 함수)
 
 /*
 import { NextApiRequest, NextApiResponse } from "next";
