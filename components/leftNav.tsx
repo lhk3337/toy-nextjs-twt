@@ -4,16 +4,33 @@ import { useRouter } from "next/router";
 import { cls } from "@libs/client/util";
 import { useEffect, useState, useRef } from "react";
 import useOnClickOutside from "@libs/client/useOnClickOutside";
+import useMutation from "@libs/client/useMutation";
 interface LeftNavProps {
   onModalTwt: () => void;
+}
+interface logoutType {
+  ok: boolean;
 }
 
 export default function LeftNav({ onModalTwt }: LeftNavProps) {
   const router = useRouter();
   const [logout, setLogout] = useState<boolean>(false);
   const btnRef = useRef(null);
+  const [onLogout, { loading, data: logoutData }] = useMutation<logoutType>("/api/users/logout");
 
   useOnClickOutside(btnRef, () => setLogout(false));
+
+  const onLogoutClick = () => {
+    if (!loading) {
+      onLogout({});
+    }
+  };
+
+  useEffect(() => {
+    if (logoutData?.ok) {
+      router.push("/home");
+    }
+  }, [logoutData, router]);
 
   return (
     <div className="flex pt-10 px-2 sm:p-10 flex-col sm:w-72 justify-between">
@@ -172,6 +189,7 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
             "shadow-[0_0_5px_2px_rgba(255,255,255,0.26)] hover:bg-[rgb(22,24,28)]",
             logout ? "flex" : "hidden"
           )}
+          onClick={onLogoutClick}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
