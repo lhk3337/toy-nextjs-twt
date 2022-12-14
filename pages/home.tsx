@@ -43,7 +43,7 @@ export default () => {
           </Link>
           <h2 className="text-[17px] mt-20 mb-10">이미 트위터에 가입하셨나요?</h2>
           <Link href={`/?modalId=login`} as={`/log-in`}>
-            <a className="p-3 px-[120px] rounded-3xl border-slate-400 border-[0.5px] text-sky-500 font-bold  hover:bg-[rgb(29,155,240)]/10">
+            <a className="p-3 px-[120px] rounded-3xl border-slate-400 border-[1px] text-sky-500 font-bold  hover:bg-[rgb(29,155,240)]/10">
               로그인
             </a>
           </Link>
