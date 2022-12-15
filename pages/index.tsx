@@ -39,7 +39,7 @@ export default function Home() {
       (prev) =>
         prev && {
           ...prev,
-          tweetList: [...prev.tweetList, { updatedAt: new Date(), tweet: tweets, user: { ...user } }] as any,
+          tweetList: [{ updatedAt: new Date(), tweet: tweets, user: { ...user } }, ...prev.tweetList] as any,
         },
       false
     );
