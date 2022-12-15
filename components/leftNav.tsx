@@ -5,6 +5,7 @@ import { cls } from "@libs/client/util";
 import { useEffect, useState, useRef } from "react";
 import useOnClickOutside from "@libs/client/useOnClickOutside";
 import useMutation from "@libs/client/useMutation";
+import useUser from "@libs/client/useUser";
 interface LeftNavProps {
   onModalTwt: () => void;
 }
@@ -16,6 +17,7 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
   const router = useRouter();
   const [logout, setLogout] = useState<boolean>(false);
   const btnRef = useRef(null);
+  const { user } = useUser();
   const [onLogout, { loading, data: logoutData }] = useMutation<logoutType>("/api/users/logout");
 
   useOnClickOutside(btnRef, () => setLogout(false));
@@ -159,7 +161,7 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
       <div className="flex relative mb-5 items-center justify-center sm:justify-between">
         <div className="flex items-center justify-between">
           <div className="w-10 h-10 rounded-full bg-slate-600 sm:mr-4" />
-          <span className="text-white hidden sm:block">holim</span>
+          <span className="text-white hidden sm:block">{user?.name}</span>
         </div>
         <div
           onClick={() => setLogout((prev) => !prev)}
