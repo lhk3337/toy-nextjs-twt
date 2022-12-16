@@ -4,13 +4,14 @@ import { ReactNode, useState } from "react";
 import LeftNav from "@components/leftNav";
 import { useRouter } from "next/router";
 import { cls } from "@libs/client/util";
+import TweetWrite from "./tweet";
 interface LayoutProps {
   title: string;
   children: ReactNode;
   canGoBack?: boolean;
 }
 export default function Layout({ title, children, canGoBack }: LayoutProps) {
-  const [isTwt, setIsTwt] = useState<boolean>(true);
+  const [isTwt, setIsTwt] = useState<boolean>(false);
   const onModalTwt = () => {
     setIsTwt((prev) => !prev);
   };
@@ -24,13 +25,15 @@ export default function Layout({ title, children, canGoBack }: LayoutProps) {
       <Head>
         <title>{`${title} | Tweet`}</title>
       </Head>
-      <div className="flex justify-center">
+      {isTwt && <TweetWrite setIsTwt={setIsTwt} isModal />}
+      <div className={cls("flex justify-center", isTwt ? "bg-zinc-800 pointer-events-none" : "")}>
         <LeftNav onModalTwt={onModalTwt} />
         <div className="h-screen overflow-y-scroll scrollbar-hide w-[600px]  border-[#2f3336] border-x-2 ">
           <div
             className={cls(
-              "text-white font-bold items-center flex text-lg py-3 sticky top-0 bg-black/90 z-30",
-              canGoBack ? "pl-2" : "pl-4"
+              "text-white font-bold items-center flex text-lg py-3 sticky top-0 z-30",
+              canGoBack ? "pl-2" : "pl-4",
+              isTwt ? "bg-zinc-800" : "bg-black/90"
             )}
           >
             {canGoBack && (
