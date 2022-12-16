@@ -76,7 +76,7 @@ export default function Login({ eventClick }: EventClickProps) {
           </div>
           <div>
             <label htmlFor="password" className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">
-              Your password
+              비밀번호
             </label>
             <input
               type="password"
