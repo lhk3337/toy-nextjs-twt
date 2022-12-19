@@ -2,7 +2,7 @@ import Button from "@components/button";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { TwtListItem } from "@components/twt-list";
+import { TweetResponse } from "@pages/tweet/[id]";
 import useSWR from "swr";
 import { Dispatch, SetStateAction } from "react";
 import { cls } from "@libs/client/util";
@@ -13,7 +13,7 @@ interface IUser {
 
 interface TweetsResponse {
   ok: boolean;
-  tweetList: TwtListItem[];
+  tweetList: TweetResponse[];
 }
 
 interface modalProps {
@@ -60,7 +60,7 @@ export default function TweetWrite({ setIsTwt, isModal }: modalProps) {
       className={cls(
         "p-5 pt-8 text-white",
         isModal
-          ? "sm:w-[500px] w-[90%] h-[15%] sm:top-20 top-10 left-1/2 -translate-x-1/2 bg-black rounded-lg z-50 absolute"
+          ? "sm:w-[500px] w-[90%] h-[20%] sm:top-20 top-10 left-1/2 -translate-x-1/2 bg-black rounded-lg z-50 absolute"
           : ""
       )}
     >

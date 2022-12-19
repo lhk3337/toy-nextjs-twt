@@ -1,8 +1,8 @@
-import { TwtListItem } from "@components/twt-list";
+import { TweetResponse } from "@pages/tweet/[id]";
 import Link from "next/link";
 import Time from "./time";
 
-export default function TwtItem({ id, user, tweet, updatedAt, onLinked }: TwtListItem) {
+export default function TwtItem({ id, user, tweet, updatedAt, onLinked }: TweetResponse) {
   return (
     <>
       {onLinked ? (

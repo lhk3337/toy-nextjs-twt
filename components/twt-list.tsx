@@ -1,12 +1,8 @@
-import { Tweets } from "@prisma/client";
+import { TweetResponse } from "@pages/tweet/[id]";
 import TwtItem from "./twt-item";
 
-export interface TwtListItem extends Tweets {
-  user: { userId: string };
-  onLinked?: boolean;
-}
 interface TwtListProps {
-  data: TwtListItem[] | undefined;
+  data: TweetResponse[] | undefined;
 }
 export default function TwtList({ data }: TwtListProps) {
   return (
@@ -19,7 +15,7 @@ export default function TwtList({ data }: TwtListProps) {
         </>
       ) : (
         <>
-          {data?.map((value: TwtListItem) => {
+          {data?.map((value: TweetResponse) => {
             return <TwtItem {...value} key={value.id} onLinked />;
           })}
         </>
