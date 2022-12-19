@@ -10,7 +10,7 @@
 
 ---
 
-- [ ] Tweets Detail page 설정하기
+- [x] Tweets Detail page 설정하기
 
 ---
 
