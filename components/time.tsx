@@ -14,7 +14,7 @@ export default function Time({ time }: SendTimeProps) {
             : time.getHours() === 24
             ? `오전 ${time.getHours() - 24 < 10 ? `0${time.getHours() - 24}` : time.getHours() - 24}`
             : `오후 ${time.getHours() - 12 < 10 ? `${time.getHours() - 12}` : time.getHours() - 12}`}
-          :{time.getMinutes()}
+          :{time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes()}
         </span>
       )}
     </>
