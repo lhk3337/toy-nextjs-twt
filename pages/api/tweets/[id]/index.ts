@@ -10,11 +10,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     const tweet = await db.tweets.findUnique({
       where: { id: Number(id) },
-      include: { user: { select: { userId: true } } },
+      include: {
+        user: { select: { userId: true } },
+        answers: {
+          orderBy: [{ id: "desc" }],
+          select: {
+            answer: true,
+            id: true,
+            createdAt: true,
+            user: { select: { id: true, userId: true, avatar: true } },
+          },
+        },
+      },
     });
     res.json({ ok: true, tweet });
   }
-  if (req.method === "POST") {
-  }
 }
-export default withApiSession(withHandler({ methods: ["GET", "POST"], handler }));
+export default withApiSession(withHandler({ methods: ["GET"], handler }));
