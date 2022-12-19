@@ -15,9 +15,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       body: { tweets },
       session: { user },
     } = req;
-    const tweetWrite = await db.tweets.create({
+    await db.tweets.create({
       data: {
-        user: { connect: { userId: user?.userId } },
+        user: { connect: { id: user?.id } },
         tweet: tweets,
       },
     });

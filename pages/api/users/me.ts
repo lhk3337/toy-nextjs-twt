@@ -8,10 +8,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
     session: { user },
   } = req;
+
   if (!user) return res.status(400).json({ ok: false });
   const users = await db.user.findUnique({
-    where: { userId: user?.userId },
-    select: { userId: true, id: true },
+    where: { id: user?.id },
+    select: { userId: true, id: true, name: true },
   });
 
   return res.json({
@@ -19,4 +20,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     user: users,
   });
 }
-export default withApiSession(withHandler("GET", handler));
+export default withApiSession(withHandler({ methods: ["GET"], handler }));

@@ -24,7 +24,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
   }
   req.session.user = {
-    userId: user.userId,
+    id: user.id,
   }; // 세션 선언
   await req.session.save(); // 세션 저장
 
