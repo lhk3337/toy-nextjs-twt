@@ -21,6 +21,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             user: { select: { id: true, userId: true, avatar: true } },
           },
         },
+        _count: { select: { answers: true, likes: true, bookmarks: true } },
       },
     });
     res.json({ ok: true, tweet });

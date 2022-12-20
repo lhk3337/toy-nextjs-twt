@@ -22,6 +22,7 @@ export interface TweetResponse extends Tweets {
   answers: Answer[];
   user: User;
   onLinked?: boolean;
+  _count: { answers: number; bookmarks: number; likes: number };
 }
 interface DetailTwtResponse {
   ok: boolean;
