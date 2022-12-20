@@ -1,8 +1,36 @@
-import { TweetResponse } from "@pages/tweet/[id]";
+import useMutation from "@libs/client/useMutation";
+import { cls } from "@libs/client/util";
+import { DetailTwtResponse, TweetResponse } from "@pages/tweet/[id]";
 import Link from "next/link";
+import useSWR from "swr";
 import Time from "./time";
 
 export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count }: TweetResponse) {
+  const [onLike] = useMutation(`/api/tweets/${id}/likes`);
+
+  const { data, mutate: twtMutate } = useSWR<DetailTwtResponse>(`/api/tweets/${id}`);
+
+  const onLikedClick = () => {
+    if (!data) return;
+
+    twtMutate(
+      (prev) =>
+        prev && {
+          ...prev,
+          tweet: {
+            ...prev.tweet,
+            _count: {
+              ...prev.tweet._count,
+              likes: prev.isLiking ? prev.tweet._count.likes - 1 : prev?.tweet._count.likes + 1,
+            },
+          },
+          isLiking: !prev.isLiking,
+        },
+      false
+    );
+
+    onLike({});
+  };
   return (
     <>
       {onLinked ? (
@@ -57,14 +85,19 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count }
           </svg>
           <span className="text-sm">{_count?.answers}</span>
         </div>
-        <div className="flex space-x-3 text-[#94A3B8] items-center">
+        <div
+          className={cls(
+            "flex space-x-3 items-center cursor-pointer",
+            data?.isLiking ? "text-[#F91880]" : "text-[#94A3B8] hover:text-[#F91880]"
+          )}
+          onClick={onLikedClick}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="w-6 h-6 text-[#94A3B8]"
-            fill="none"
+            className="w-6 h-6"
+            fill={data?.isLiking ? "#F91880" : "none"}
             viewBox="0 0 24 24"
             stroke="currentColor"
-            strokeWidth={1.5}
           >
             <path
               strokeLinecap="round"
@@ -72,6 +105,7 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count }
               d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
             />
           </svg>
+
           <span className="text-sm">{_count?.likes}</span>
         </div>
         <div className="flex space-x-3 text-[#94A3B8] items-center">

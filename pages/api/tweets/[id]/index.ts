@@ -5,6 +5,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
     query: { id },
+    session: { user },
   } = req;
 
   if (req.method === "GET") {
@@ -24,7 +25,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         _count: { select: { answers: true, likes: true, bookmarks: true } },
       },
     });
-    res.json({ ok: true, tweet });
+    const isLiking = Boolean(
+      await db.like.findFirst({
+        where: {
+          tweetsId: Number(id),
+          userId: user?.id,
+        },
+      })
+    );
+    res.json({ ok: true, tweet, isLiking });
   }
 }
 export default withApiSession(withHandler({ methods: ["GET"], handler }));
