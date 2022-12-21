@@ -18,13 +18,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       body: { tweets },
       session: { user },
     } = req;
-    await db.tweets.create({
+    const tweet = await db.tweets.create({
       data: {
         user: { connect: { id: user?.id } },
         tweet: tweets,
       },
     });
-    res.json({ ok: true });
+    res.json({ ok: true, tweet });
   }
 }
 export default withApiSession(withHandler({ methods: ["GET", "POST"], handler }));
