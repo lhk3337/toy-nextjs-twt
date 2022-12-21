@@ -24,9 +24,10 @@ export interface TweetResponse extends Tweets {
   onLinked?: boolean;
   _count: { answers: number; bookmarks: number; likes: number };
 }
-interface DetailTwtResponse {
+export interface DetailTwtResponse {
   ok: boolean;
   tweet: TweetResponse;
+  isLiking: boolean;
 }
 const TweetDetail: NextPage = () => {
   const {
@@ -44,8 +45,6 @@ const TweetDetail: NextPage = () => {
   const [sendAnswer, { data: answerData, loading: answerLoading }] = useMutation<AnswerResponse>(
     `/api/tweets/${router.query.id}/answers`
   );
-  console.log(data);
-  // console.log(data);
   const onSubmit = ({ rtweet }: rtweetForm) => {
     if (answerLoading) return;
     mutate(
