@@ -17,9 +17,11 @@ interface AnswerResponse {
   ok: boolean;
   answer: Answer;
 }
-
+interface AnswerWithUser extends Answer {
+  user: User;
+}
 export interface TweetResponse extends Tweets {
-  answers: Answer[];
+  answers: AnswerWithUser[];
   user: User;
   onLinked?: boolean;
   _count: { answers: number; bookmarks: number; likes: number };
@@ -102,9 +104,9 @@ const TweetDetail: NextPage = () => {
         </>
       ) : (
         <>
-          {data?.tweet.answers.map((value: any, i: any) => {
+          {data?.tweet?.answers.map((value) => {
             return (
-              <div key={i} className="p-5 border-b-2 border-[#2f3336] relative ">
+              <div key={value.id} className="p-5 border-b-2 border-[#2f3336] relative ">
                 <div className="absolute right-4 justify-center items-center flex h-10 w-10 hover:rounded-full hover:bg-[#eff3f41a] hover:transition hover:duration-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
