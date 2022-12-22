@@ -3,6 +3,7 @@ import TwtList from "@components/twt-list";
 import { cls } from "@libs/client/util";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import useSWR from "swr";
 export default function Profile() {
   const router = useRouter();
   const onMoveClick = () => {
@@ -16,20 +17,8 @@ export default function Profile() {
     setMethod("likes");
   };
 
-  const twtFakeData = [
-    { id: 1, name: "holim", date: "22.11.25. 오후 4:31", text: "hello world" },
-    { id: 2, name: "martin", date: "22.11.20. 오후 4:31", text: "before and after being denied dino" },
-    { id: 3, name: "katie", date: "22.10.02. 오전 4:31", text: "A Few Humble Cinema Lovers" },
-    { id: 4, name: "Saltydkdan", date: "22.12.25. 오후 4:31", text: "I need for shiny charm" },
-    { id: 5, name: "Cinema Tweets", date: "22.9.25. 오후 4:21", text: "god bless you" },
-    { id: 6, name: "Tortie", date: "22.4.25. 오후 1:34", text: "Am I doing this challenge right?" },
-  ];
-
-  const likesFakeData = [
-    { id: 1, name: "martin", date: "22.11.20. 오후 4:31", text: "before and after being denied dino" },
-    { id: 2, name: "Cinema Tweets", date: "22.9.25. 오후 4:21", text: "god bless you" },
-    { id: 3, name: "Tortie", date: "22.4.25. 오후 1:34", text: "Am I doing this challenge right?" },
-  ];
+  const { data } = useSWR("/api/users/twtlist");
+  const { data: twtLike } = useSWR("/api/users/likedlist");
 
   return (
     <Layout title="Profile" canGoBack>
@@ -72,8 +61,8 @@ export default function Profile() {
         </div>
       </div>
       <div className="my-2 p-3">
-        {method === "twt" && <TwtList data={twtFakeData} />}
-        {method === "likes" && <TwtList data={likesFakeData} />}
+        {method === "twt" && <TwtList data={data?.tweetList} />}
+        {method === "likes" && <TwtList data={twtLike?.tweetList} />}
       </div>
     </Layout>
   );
