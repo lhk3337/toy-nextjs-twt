@@ -134,11 +134,11 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
             </div>
           </a>
         </Link>
-        <Link href="/profile">
+        <Link href="/profile/tweets">
           <a className="flex items-center justify-center sm:justify-start">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="26" height="26">
               <g fill="#E7E9EA">
-                {router.pathname === "/profile" ? (
+                {router.pathname === "/profile/tweets" || router.pathname === "/profile/likes" ? (
                   <path
                     d="M17.863 13.44c1.477 1.58 2.366 3.8 2.632 6.46l.11 1.1H3.395l.11-1.1c.266-2.66 1.155-4.88 2.632-6.46C7.627 11.85 9.648 11 12 11s4.373.85 5.863 2.44zM12 2C9.791 2 8 3.79 8 6s1.791 4 4 4 4-1.79 4-4-1.791-4-4-4z"
                     fill="#E7E9EA"
@@ -154,7 +154,7 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
             <div
               className={cls(
                 "text-white text-[20px] ml-4 hidden sm:block",
-                router.pathname === "/profile" ? "font-bold" : ""
+                router.pathname === "/profile/tweets" || router.pathname === "/profile/likes" ? "font-bold" : ""
               )}
             >
               Profile
