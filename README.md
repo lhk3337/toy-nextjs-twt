@@ -22,8 +22,8 @@
 
 ---
 
-- [ ] BookMark page
-  - [ ] BookMark 클릭한 리스트만 보여주기
+- [x] BookMark page
+  - [x] BookMark 클릭한 리스트만 보여주기
 
 ---
 
