@@ -33,7 +33,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
     );
-    res.json({ ok: true, tweet, isLiking });
+    const isBookMarking = Boolean(
+      await db.bookmark.findFirst({
+        where: { tweetsId: Number(id), userId: user?.id },
+      })
+    );
+    res.json({ ok: true, tweet, isLiking, isBookMarking });
   }
 }
 export default withApiSession(withHandler({ methods: ["GET"], handler }));

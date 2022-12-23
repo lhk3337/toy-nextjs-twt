@@ -23,6 +23,7 @@ interface AnswerWithUser extends Answer {
 export interface TweetResponse extends Tweets {
   answers: AnswerWithUser[];
   user: User;
+  list: boolean;
   onLinked?: boolean;
   _count: { answers: number; bookmarks: number; likes: number };
 }
@@ -30,6 +31,7 @@ export interface DetailTwtResponse {
   ok: boolean;
   tweet: TweetResponse;
   isLiking: boolean;
+  isBookMarking: boolean;
 }
 const TweetDetail: NextPage = () => {
   const {

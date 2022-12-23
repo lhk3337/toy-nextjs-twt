@@ -16,7 +16,7 @@ export default function TwtList({ data }: TwtListProps) {
       ) : (
         <>
           {data?.map((value: TweetResponse) => {
-            return <TwtItem {...value} key={value.id} onLinked />;
+            return <TwtItem {...value} key={value.id} onLinked list />;
           })}
         </>
       )}

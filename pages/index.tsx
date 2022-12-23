@@ -13,7 +13,7 @@ interface TweetsResponse {
 
 export default function Home() {
   const router = useRouter();
-  const { data, mutate, error } = useSWR<TweetsResponse | undefined>("/api/tweets");
+  const { data, error } = useSWR<TweetsResponse | undefined>("/api/tweets");
 
   useEffect(() => {
     if (error) {

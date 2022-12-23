@@ -1,14 +1,20 @@
 import Layout from "@components/layout";
 import TwtList from "@components/twt-list";
+import useSWR from "swr";
 export default function Bookmarks() {
-  const fakeData = [
-    { id: 1, name: "holim", date: "22.11.25. 오후 4:31", text: "hello world" },
-    { id: 2, name: "martin", date: "22.11.20. 오후 4:31", text: "before and after being denied dino" },
-    { id: 3, name: "katie", date: "22.10.02. 오전 4:31", text: "A Few Humble Cinema Lovers" },
-  ];
+  const { data } = useSWR("/api/bookmark");
+
   return (
     <Layout title="Bookmark">
-      <TwtList data={fakeData} />
+      {!data ? (
+        <>
+          {Array.from(Array(20).keys()).map((_, i) => {
+            return <div key={i} className=" h-[10vh] bg-gray-600 mx-5 my-7  rounded-md animate-pulse" />;
+          })}
+        </>
+      ) : (
+        <TwtList data={data?.tweetList} />
+      )}
     </Layout>
   );
 }

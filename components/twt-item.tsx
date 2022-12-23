@@ -5,9 +5,9 @@ import Link from "next/link";
 import useSWR from "swr";
 import Time from "./time";
 
-export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count }: TweetResponse) {
+export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count, list }: TweetResponse) {
   const [onLike] = useMutation(`/api/tweets/${id}/likes`);
-
+  const [onBookMark] = useMutation(`/api/tweets/${id}/bookmarks`);
   const { data, mutate: twtMutate } = useSWR<DetailTwtResponse>(`/api/tweets/${id}`);
 
   const onLikedClick = () => {
@@ -30,6 +30,26 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count }
     );
 
     onLike({});
+  };
+  const onBookMarkClick = () => {
+    if (!data) return;
+
+    twtMutate(
+      (prev) =>
+        prev && {
+          ...prev,
+          tweet: {
+            ...prev.tweet,
+            _count: {
+              ...prev.tweet._count,
+              bookmarks: prev.isBookMarking ? prev.tweet._count.bookmarks - 1 : prev?.tweet._count.bookmarks + 1,
+            },
+          },
+          isBookMarking: !prev.isBookMarking,
+        },
+      false
+    );
+    onBookMark({});
   };
   return (
     <>
@@ -87,8 +107,9 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count }
         </div>
         <div
           className={cls(
-            "flex space-x-3 items-center cursor-pointer",
-            data?.isLiking ? "text-[#F91880]" : "text-[#94A3B8] hover:text-[#F91880]"
+            "flex space-x-3 items-center",
+            data?.isLiking ? "text-[#F91880]" : "text-[#94A3B8] hover:text-[#F91880]",
+            list ? "hover:text-[#94A3B8] pointer-events-none" : "cursor-pointer"
           )}
           onClick={onLikedClick}
         >
@@ -108,11 +129,18 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count }
 
           <span className="text-sm">{_count?.likes}</span>
         </div>
-        <div className="flex space-x-3 text-[#94A3B8] items-center">
+        <div
+          className={cls(
+            "flex space-x-3 items-center",
+            data?.isBookMarking ? "text-[#1d9bf0]" : "text-[#94A3B8] hover:text-[#1d9bf0]",
+            list ? "hover:text-[#94A3B8] pointer-events-none" : "cursor-pointer"
+          )}
+          onClick={onBookMarkClick}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="w-6 h-6 text-[#94A3B8]"
-            fill="none"
+            className="w-6 h-6"
+            fill={data?.isBookMarking ? "#1d9bf0" : "none"}
             viewBox="0 0 24 24"
             stroke="currentColor"
             strokeWidth={1.5}
