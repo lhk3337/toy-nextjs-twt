@@ -52,7 +52,7 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count, 
     onBookMark({});
   };
   return (
-    <>
+    <div className="hover:bg-[rgb(22,24,28)]">
       {onLinked ? (
         <Link href={`/tweet/${id}`}>
           <a className="px-3 py-5 flex flex-col relative">
@@ -151,6 +151,6 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count, 
         </div>
       </div>
       <div className="border-b-2 border-[#2f3336]" />
-    </>
+    </div>
   );
 }

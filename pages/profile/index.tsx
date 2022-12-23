@@ -60,7 +60,7 @@ export default function Profile() {
           </button>
         </div>
       </div>
-      <div className="my-2 p-3">
+      <div>
         {method === "twt" && <TwtList data={data?.tweetList} />}
         {method === "likes" && <TwtList data={twtLike?.tweetList} />}
       </div>
