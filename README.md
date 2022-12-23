@@ -38,3 +38,7 @@
 ---
 
 - [ ] Prisma DB 필요한 모델 추가하기
+
+## Design
+
+- ### [figma Design Link](https://www.figma.com/file/EpLzVjzxkTfxvqFc3CzMow/twt?node-id=0%3A1)
