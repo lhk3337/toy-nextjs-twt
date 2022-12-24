@@ -18,6 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
         data: {
           userId,
           password: bcrypt.hashSync(password, 10),
+          name: "Anonymous",
         },
       });
     } else {
