@@ -25,20 +25,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         _count: { select: { answers: true, likes: true, bookmarks: true } },
       },
     });
-    const isLiking = Boolean(
-      await db.like.findFirst({
-        where: {
-          tweetsId: Number(id),
-          userId: user?.id,
-        },
-      })
-    );
-    const isBookMarking = Boolean(
-      await db.bookmark.findFirst({
-        where: { tweetsId: Number(id), userId: user?.id },
-      })
-    );
-    res.json({ ok: true, tweet, isLiking, isBookMarking });
+
+    const isBoolean = async (dbType: any) => {
+      return Boolean(
+        await dbType.findFirst({
+          where: { tweetsId: Number(id), userId: user?.id },
+        })
+      );
+    };
+
+    res.json({ ok: true, tweet, isLiking: await isBoolean(db.like), isBookMarking: await isBoolean(db.bookmark) });
   }
 }
 export default withApiSession(withHandler({ methods: ["GET"], handler }));
