@@ -26,59 +26,24 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       body: { bio, website, name, location },
     } = req;
 
-    if (bio) {
-      await db.user.update({
-        where: { id: user?.id },
-        data: {
-          bio,
-        },
-      });
-    } else {
-      await db.user.update({
-        where: { id: user?.id },
-        data: { bio: "" },
-      });
-    }
+    const userUpdate = async (reqBody: string, userInfoField: string) => {
+      if (reqBody) {
+        await db.user.update({
+          where: { id: user?.id },
+          data: { [userInfoField]: reqBody },
+        });
+      } else {
+        await db.user.update({
+          where: { id: user?.id },
+          data: userInfoField === "name" ? { [userInfoField]: "Anonymous" } : { [userInfoField]: "" },
+        });
+      }
+    };
 
-    if (website) {
-      await db.user.update({
-        where: { id: user?.id },
-        data: {
-          website,
-        },
-      });
-    } else {
-      await db.user.update({
-        where: { id: user?.id },
-        data: { website: "" },
-      });
-    }
-    if (name) {
-      await db.user.update({
-        where: { id: user?.id },
-        data: {
-          name,
-        },
-      });
-    } else {
-      await db.user.update({
-        where: { id: user?.id },
-        data: { name: "Anonymous" },
-      });
-    }
-    if (location) {
-      await db.user.update({
-        where: { id: user?.id },
-        data: {
-          location,
-        },
-      });
-    } else {
-      await db.user.update({
-        where: { id: user?.id },
-        data: { location: "" },
-      });
-    }
+    await userUpdate(website, "website");
+    await userUpdate(bio, "bio");
+    await userUpdate(name, "name");
+    await userUpdate(location, "location");
 
     res.json({ ok: true });
   }
