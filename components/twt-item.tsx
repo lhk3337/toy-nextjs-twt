@@ -61,7 +61,7 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count, 
             </span>
             <div className="px-2 flex">
               <div className="mr-6">
-                <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+                <div className="h-12 w-12 rounded-full bg-slate-500 p-4" />
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-semibold mb-2">{user?.userId}</span>

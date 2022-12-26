@@ -87,7 +87,7 @@ export default function TweetWrite({ setIsTwt, isModal }: modalProps) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-between">
           <div className="mr-5">
-            <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+            <div className="h-12 w-12 rounded-full bg-slate-500 p-4" />
           </div>
           <textarea
             placeholder="무슨 일이 일어나고 있나요?"
