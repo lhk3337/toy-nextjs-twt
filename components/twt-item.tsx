@@ -52,7 +52,7 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count, 
     onBookMark({});
   };
   return (
-    <div className="hover:bg-[rgb(22,24,28)]">
+    <div className={cls(onLinked ? "hover:bg-[rgb(22,24,28)]" : "")}>
       {onLinked ? (
         <Link href={`/tweet/${id}`}>
           <a className="px-3 py-5 flex flex-col relative">
@@ -71,8 +71,8 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count, 
           </a>
         </Link>
       ) : (
-        <div className="px-3 py-5 flex flex-col">
-          <span className="text-gray-500 text-sm text-right">
+        <div className="px-3 pt-5 pb-8 flex flex-col border-t-2 border-[#2f3336] relative">
+          <span className="text-gray-500 text-sm absolute right-4">
             <Time time={new Date(updatedAt)} />
           </span>
           <div className="px-2 flex">
@@ -86,7 +86,6 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count, 
           </div>
         </div>
       )}
-      {onLinked || <div className="border-b-2 border-[#2f3336] mt-5" />}
       <div className="p-4 pl-24 flex space-x-20">
         <div className="flex space-x-3 text-[#94A3B8] items-center">
           <svg
