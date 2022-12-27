@@ -11,7 +11,7 @@ export default function Button({ btnName, mid, responsive, onClick }: Props) {
       {responsive ? (
         <div
           className={cls(
-            "text-white text-base bg-[#1d9bf0] hover:bg-[#1a8cd8] focus:ring-4 focus:ring-blue-300 font-bold sm:w-full sm:h-full sm:rounded-[100px] text-center  cursor-pointer",
+            "text-white text-base bg-[#1d9bf0] hover:bg-[#1a8cd8]  font-bold sm:w-full sm:h-full sm:rounded-[100px] text-center  cursor-pointer",
             mid ? "py-4" : "py-2 px-6",
             "w-12 h-12 rounded-full"
           )}
@@ -32,14 +32,14 @@ export default function Button({ btnName, mid, responsive, onClick }: Props) {
           </div>
         </div>
       ) : (
-        <div
+        <button
           className={cls(
-            "text-white text-base my-2 bg-[#1d9bf0] hover:bg-[#1a8cd8] focus:ring-4 focus:ring-blue-300 font-bold rounded-[100px] text-center  cursor-pointer",
-            mid ? "py-4" : "py-2 px-6"
+            "text-white text-base my-2 bg-[#1d9bf0] hover:bg-[#1a8cd8]  font-bold rounded-[100px] text-center  cursor-pointer",
+            mid ? "py-4 " : "py-2 px-6"
           )}
         >
-          <button>{btnName}</button>
-        </div>
+          {btnName}
+        </button>
       )}
     </>
   );

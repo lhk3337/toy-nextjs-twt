@@ -72,7 +72,6 @@ const TweetDetail: NextPage = () => {
       mutate();
     }
   }, [answerData, reset, mutate]);
-  // const fakeData = { id: 1, name: "holim", text: "hello", updatedAt: new Date() };
   return (
     <Layout title="Detail Tweet" canGoBack>
       {!data ? <div className=" h-[10vh] bg-gray-600 mx-5 rounded-md animate-pulse" /> : <TwtItem {...data?.tweet} />}

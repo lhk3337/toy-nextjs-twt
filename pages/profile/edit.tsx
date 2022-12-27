@@ -2,6 +2,10 @@ import Button from "@components/button";
 import Input from "@components/input";
 import Layout from "@components/layout";
 import Textarea from "@components/textarea";
+import useUser from "@libs/client/useUser";
+import useMutation from "@libs/client/useMutation";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface EditProfileForm {
@@ -18,13 +22,29 @@ export default function EditProfile() {
     register,
     setValue,
     handleSubmit,
-    setError,
-    watch,
     formState: { errors },
   } = useForm<EditProfileForm>();
+  const { user } = useUser();
+  const router = useRouter();
+  const [editProfile, { data }] = useMutation("/api/users/me");
+
+  useEffect(() => {
+    if (user?.name) setValue("name", user.name);
+    if (user?.bio) setValue("bio", user.bio);
+    if (user?.location) setValue("location", user.location);
+    if (user?.website) setValue("website", user.website);
+  }, [user, setValue]);
+
   const onValid = (data: EditProfileForm) => {
-    console.log(data);
+    editProfile({ ...data });
+    alert("수정되었습니다.");
   };
+  useEffect(() => {
+    if (data && data.ok) {
+      router.push("/profile/tweets");
+    }
+  }, [data, useRouter]);
+
   return (
     <Layout title="Edit Profile" canGoBack>
       <form className="px-10 py-10 flex mb-3 flex-col space-y-12" onSubmit={handleSubmit(onValid)}>
