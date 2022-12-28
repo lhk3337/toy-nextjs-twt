@@ -88,11 +88,11 @@ export default function LayoutProfile({ children }: LayoutProfileProps) {
       </div>
       <div className="flex justify-center">
         <div className="grid w-full grid-cols-2 border-b  border-[#2f3336]">
-          <Link href="/profile/tweets" className="transition duration-500">
+          <Link href="/profile" className="transition duration-500">
             <button
               className={cls(
                 "pb-2",
-                router.pathname === "/profile/tweets"
+                router.pathname === "/profile"
                   ? "font-bold border-b-4 border-b-[#1d9bf0] text-white"
                   : "border-transparent text-gray-500 "
               )}
