@@ -34,6 +34,7 @@
   - [ ] Edit Profile 설정하기
     - [x] User 정보 수정하기 구현
     - [ ] 사진 업로드 구현하기
+  - [ ] tweet detail 페이지에서 해당 트윗 글쓴이의 profile page 설정하기
 
 ---
 
