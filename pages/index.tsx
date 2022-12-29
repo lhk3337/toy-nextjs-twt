@@ -25,7 +25,7 @@ export default function Home() {
     <Layout title="Home">
       <TweetWrite isModal={false} />
       <div className="border-b-2 border-[#2f3336]" />
-      <TwtList data={data?.tweetList} />
+      <TwtList twtList={data?.tweetList} />
     </Layout>
   );
 }

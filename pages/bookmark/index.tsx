@@ -13,7 +13,7 @@ export default function Bookmarks() {
           })}
         </>
       ) : (
-        <TwtList data={data?.tweetList} />
+        <TwtList twtList={data?.tweetList} />
       )}
     </Layout>
   );
