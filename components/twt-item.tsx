@@ -80,7 +80,9 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count, 
               <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-semibold mb-2">{user?.userId}</span>
+              <span className="text-lg font-semibold mb-2 hover:text-[#1d9bf0]">
+                <Link href={`/profile/${user?.userId}`}>{user?.userId}</Link>
+              </span>
               <span className="text-sm">{tweet}</span>
             </div>
           </div>
