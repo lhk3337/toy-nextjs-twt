@@ -41,7 +41,7 @@ export default function EditProfile() {
   };
   useEffect(() => {
     if (data && data.ok) {
-      router.push("/profile/tweets");
+      router.push(`/profile/${user?.userId}`);
     }
   }, [data, useRouter]);
 
