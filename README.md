@@ -1,5 +1,14 @@
 # Next JS를 이용한 트위터 만들기
 
+## Util
+
+| Kinds                 | Description                                                                                                                                                                                                                                                                                                                                  |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Framework & Library   | <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white" /> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black" /> <img src="https://img.shields.io/badge/react hook form-EC5990?style=for-the-badge&logo=react hook form&logoColor=white" /> |
+| Language              | <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />                                                                                                                                                                                                                             |
+| CSS framework         | <img src="https://img.shields.io/badge/tailwind CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" />                                                                                                                                                                                                                          |
+| API & DB & Serverless | <img src="https://img.shields.io/badge/prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white" /> <img src="https://img.shields.io/badge/PlanetScale-000000?style=for-the-badge&logo=PlanetScale&logoColor=white" /> <img src="https://img.shields.io/badge/SWR-000000?style=for-the-badge&logo=swr&logoColor=white" />               |
+
 ## To Do
 
 - [x] Tweet modal 생성하기
