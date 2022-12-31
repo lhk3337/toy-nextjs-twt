@@ -114,7 +114,7 @@ const TweetDetail: NextPage = () => {
               <textarea
                 placeholder="트윗 답장 하기"
                 rows={3}
-                {...register("rtweet")}
+                {...register("rtweet", { required: true })}
                 className="text-xl resize-none w-full scrollbar-hide focus:outline-none bg-transparent placeholder:text-[#2f3336] placeholder:font-semibold placeholder:text-xl"
               />
             </div>
