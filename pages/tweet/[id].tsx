@@ -35,6 +35,9 @@ export interface DetailTwtResponse {
   isLiking: boolean;
   isBookMarking: boolean;
 }
+interface Toggle {
+  [key: string]: boolean;
+}
 const TweetDetail: NextPage = () => {
   const {
     register,
@@ -46,9 +49,9 @@ const TweetDetail: NextPage = () => {
   const router = useRouter();
   const { user } = useUser();
 
-  const [isDelete, setIsDelete] = useState<boolean>(false);
+  const [isToogle, setIsToogle] = useState<Toggle>({});
+
   const btnRef = useRef(null);
-  useOnClickOutside(btnRef, () => setIsDelete(false));
 
   const { data, mutate } = useSWR<DetailTwtResponse | undefined>(
     router.query.id ? `/api/tweets/${router.query.id}` : null
@@ -76,10 +79,14 @@ const TweetDetail: NextPage = () => {
     sendAnswer({ rtweet });
     reset();
   };
-  const onIsRetweet = (value: AnswerWithUser) => {
-    if (value.id === data?.tweet.answers.filter((v) => v.id === value.id).find((va) => va)?.id) {
-      setIsDelete((prev) => !prev);
-    }
+  // const [num, setNum] = useState<string | undefined>();
+
+  const onIsRetweet = (id: number) => {
+    // setNum(id.toString());
+    setIsToogle({
+      ...isToogle,
+      [id]: !isToogle[id],
+    });
   };
 
   const onDeleteClick = (value: AnswerWithUser) => {
@@ -99,6 +106,9 @@ const TweetDetail: NextPage = () => {
       router.reload();
     }
   }, [router, delAnswerData]);
+
+  // useOnClickOutside(btnRef, () => setIsToogle({ ...isToogle, [`${num}`]: false }));
+
   return (
     <Layout title="Detail Tweet" canGoBack>
       {!data ? <div className=" h-[10vh] bg-gray-600 mx-5 rounded-md animate-pulse" /> : <TwtItem {...data?.tweet} />}
@@ -138,7 +148,7 @@ const TweetDetail: NextPage = () => {
                 {value.user.id === user?.id ? (
                   <>
                     <div
-                      onClick={() => onIsRetweet(value)}
+                      onClick={() => onIsRetweet(value.id)}
                       className="absolute right-4 justify-center items-center flex h-10 w-10 hover:rounded-full hover:bg-[#eff3f41a] hover:transition hover:duration-300"
                     >
                       <svg
@@ -161,7 +171,7 @@ const TweetDetail: NextPage = () => {
                       className={cls(
                         "pl-6 py-4 cursor-pointer items-center text-white absolute top-[4.6rem] right-4 bg-black w-60 rounded-xl",
                         "shadow-[0_0_5px_2px_rgba(255,255,255,0.26)] hover:bg-[rgb(22,24,28)] z-30",
-                        isDelete ? "flex" : "hidden"
+                        isToogle[value.id] ? "flex" : "hidden"
                       )}
                       onClick={() => onDeleteClick(value)}
                     >
