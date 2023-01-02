@@ -3,7 +3,6 @@ import Layout from "@components/layout";
 import Time from "@components/time";
 import TwtItem from "@components/twt-item";
 import useMutation from "@libs/client/useMutation";
-import useOnClickOutside from "@libs/client/useOnClickOutside";
 import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/util";
 import { Answer, Tweets, User } from "@prisma/client";
@@ -49,8 +48,6 @@ const TweetDetail: NextPage = () => {
   const router = useRouter();
   const { user } = useUser();
 
-  const [isToogle, setIsToogle] = useState<Toggle>({});
-
   const btnRef = useRef(null);
 
   const { data, mutate } = useSWR<DetailTwtResponse | undefined>(
@@ -79,15 +76,33 @@ const TweetDetail: NextPage = () => {
     sendAnswer({ rtweet });
     reset();
   };
-  // const [num, setNum] = useState<string | undefined>();
+  const [isToogle, setIsToogle] = useState<Toggle>({});
 
   const onIsRetweet = (id: number) => {
-    // setNum(id.toString());
-    setIsToogle({
-      ...isToogle,
-      [id]: !isToogle[id],
-    });
+    if (id === data?.tweet.answers.filter((value) => value.id === id)[0].id) {
+      setIsToogle({
+        [id]: !isToogle[id],
+      });
+    }
   };
+
+  const closeDropdown = (e: any) => {
+    if (!setIsToogle) return;
+
+    if (e.path[0] !== btnRef.current) {
+      if (e.target.id === "") {
+        // 해당 삭제모달버튼 id
+        // 해당 삭제 모달 버튼 외에는 id를 설정하지 않음, 다른 곳을 클릭 하면 공백으로 확인 되어 조건에 id가 공백이면 setState작동(삭제 모달이 close됨)
+        setIsToogle({ [e.target.id]: false });
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.body.addEventListener("click", closeDropdown);
+    return () => document.body.removeEventListener("click", closeDropdown);
+  }, [setIsToogle, btnRef]);
+  //  useOnClickOutside
 
   const onDeleteClick = (value: AnswerWithUser) => {
     if (window.confirm("삭제 하시겠습니까?")) {
@@ -106,8 +121,6 @@ const TweetDetail: NextPage = () => {
       router.reload();
     }
   }, [router, delAnswerData]);
-
-  // useOnClickOutside(btnRef, () => setIsToogle({ ...isToogle, [`${num}`]: false }));
 
   return (
     <Layout title="Detail Tweet" canGoBack>
@@ -153,6 +166,7 @@ const TweetDetail: NextPage = () => {
                     >
                       <svg
                         ref={btnRef}
+                        id={`${value.id}`} // 해당 삭제 모달 버튼 식별하기 위해 설정
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
