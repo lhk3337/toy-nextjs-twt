@@ -8,7 +8,7 @@ export default function Message() {
           .fill("")
           .map((_, i) => (
             <Link key={i} href="/message/1">
-              <a className="p-5 flex hover:bg-[rgb(22,24,28)]">
+              <a className="p-5 flex hover:bg-[#16181c]">
                 <div className="mr-6">
                   <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
                 </div>
