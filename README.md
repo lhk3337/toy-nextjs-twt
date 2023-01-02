@@ -15,13 +15,12 @@
 
 ---
 
-- [ ] Tweet 좋아요 북마크 클릭 이벤트 설정하기
+- [ ] Tweets Detail page 설정하기
   - [x] Tweet 좋아요 설정하기 및 카운트
   - [x] 북마크 클릭 설정하기
-
----
-
-- [x] Tweets Detail page 설정하기
+  - [x] 해당 트윗 user의 profile page 설정하기
+  - [x] answer 삭제 api 구현 하기
+  - [x] answer more 버튼 및 삭제 모달 버튼 구현
 
 ---
 
@@ -33,7 +32,7 @@
 ---
 
 - [x] BookMark page
-  - [x] BookMark 클릭한 리스트만 보여주기
+  - [x] BookMark 클릭한 리스트 보여주기
 
 ---
 
@@ -43,7 +42,6 @@
   - [ ] Edit Profile 설정하기
     - [x] User 정보 수정하기 구현
     - [ ] 사진 업로드 구현하기
-  - [x] tweet detail 페이지에서 해당 트윗 글쓴이의 profile page 설정하기
 
 ---
 
