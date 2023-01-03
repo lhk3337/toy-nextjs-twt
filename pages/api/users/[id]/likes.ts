@@ -7,15 +7,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     query: { id },
   } = req;
   const user = await db.user.findUnique({
-    where: { userId: id },
+    where: { userId: id?.toString() },
     select: { userId: true, id: true, name: true, bio: true, location: true, website: true, createdAt: true },
   });
 
   const tweetLikeList = await db.like.findMany({
-    where: { user: { userId: id } },
+    where: { user: { userId: id?.toString() } },
     orderBy: [{ id: "desc" }],
     include: {
-      tweets: { include: { _count: true, user: { select: { userId: true } } } },
+      tweets: { include: { user: { select: { userId: true } }, _count: { select: { answers: true, likes: true } } } },
     },
   });
   const tweetList = tweetLikeList.map((value) => value.tweets);
