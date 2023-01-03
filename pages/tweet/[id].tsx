@@ -3,6 +3,7 @@ import Layout from "@components/layout";
 import Time from "@components/time";
 import TwtItem from "@components/twt-item";
 import useMutation from "@libs/client/useMutation";
+import useOnClickOutside from "@libs/client/useOnClickOutside";
 import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/util";
 import { Answer, Tweets, User } from "@prisma/client";
@@ -34,7 +35,7 @@ export interface DetailTwtResponse {
   isLiking: boolean;
   isBookMarking: boolean;
 }
-interface Toggle {
+export interface Toggle {
   [key: string]: boolean;
 }
 const TweetDetail: NextPage = () => {
@@ -49,6 +50,8 @@ const TweetDetail: NextPage = () => {
   const { user } = useUser();
 
   const btnRef = useRef(null);
+  const [isToogle, setIsToogle] = useState<Toggle>({});
+  useOnClickOutside(btnRef, () => {}, setIsToogle, true);
 
   const { data, mutate } = useSWR<DetailTwtResponse | undefined>(
     router.query.id ? `/api/tweets/${router.query.id}` : null
@@ -76,7 +79,6 @@ const TweetDetail: NextPage = () => {
     sendAnswer({ rtweet });
     reset();
   };
-  const [isToogle, setIsToogle] = useState<Toggle>({});
 
   const onIsRetweet = (id: number) => {
     if (id === data?.tweet.answers.filter((value) => value.id === id)[0].id) {
@@ -85,24 +87,6 @@ const TweetDetail: NextPage = () => {
       });
     }
   };
-
-  const closeDropdown = (e: any) => {
-    if (!setIsToogle) return;
-
-    if (e.path[0] !== btnRef.current) {
-      if (e.target.id === "") {
-        // 해당 삭제모달버튼 id
-        // 해당 삭제 모달 버튼 외에는 id를 설정하지 않음, 다른 곳을 클릭 하면 공백으로 확인 되어 조건에 id가 공백이면 setState작동(삭제 모달이 close됨)
-        setIsToogle({ [e.target.id]: false });
-      }
-    }
-  };
-
-  useEffect(() => {
-    document.body.addEventListener("click", closeDropdown);
-    return () => document.body.removeEventListener("click", closeDropdown);
-  }, [setIsToogle, btnRef]);
-  //  useOnClickOutside
 
   const onDeleteClick = (value: AnswerWithUser) => {
     if (window.confirm("삭제 하시겠습니까?")) {
