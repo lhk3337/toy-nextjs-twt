@@ -47,6 +47,10 @@
 
 - [ ] Prisma DB 필요한 모델 추가하기
 
+## 어려웠던 문제들
+
+- [issue1](https://github.com/lhk3337/toy-nextjs-twt/issues/3)
+
 ## Design
 
 - ### [figma Design Link](https://www.figma.com/file/EpLzVjzxkTfxvqFc3CzMow/twt?node-id=0%3A1)
