@@ -139,7 +139,7 @@ const TweetDetail: NextPage = () => {
         </>
       ) : (
         <>
-          {data.tweet.answers.map((value, index) => {
+          {data.tweet?.answers.map((value, index) => {
             return (
               <div key={index} className="p-5 border-b-2 border-[#2f3336] relative">
                 {value.user.id === user?.id ? (
