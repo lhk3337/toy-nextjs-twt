@@ -23,7 +23,7 @@ export default function Layout({ title, children, canGoBack }: LayoutProps) {
   return (
     <main>
       <Head>
-        <title>{`${title} | Tweet`}</title>
+        <title>{`${title} | Howitter`}</title>
       </Head>
       {isTwt && <TweetWrite setIsTwt={setIsTwt} isModal />}
       <div className={cls("flex justify-center", isTwt ? "bg-zinc-800 pointer-events-none" : "")}>

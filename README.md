@@ -1,4 +1,4 @@
-# Next JS를 이용한 트위터 만들기
+# Next JS를 이용한 Howitter 만들기
 
 ## tech stack
 

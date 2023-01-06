@@ -11,6 +11,7 @@ export default function Input({ id, register }: InputProps) {
         {...register}
         rows={3}
         id={id}
+        spellCheck={false}
         className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-white resize-none scrollbar-hide
       bg-transparent rounded-lg border-2 border-white appearance-none
       focus:outline-none focus:ring-0 focus:border-[#1d9bf0] peer"
