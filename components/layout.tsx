@@ -31,7 +31,7 @@ export default function Layout({ title, children, canGoBack }: LayoutProps) {
         <div className="h-screen overflow-y-scroll scrollbar-hide w-[600px]  border-[#2f3336] border-x-2 ">
           <div
             className={cls(
-              "text-white font-bold items-center flex text-lg py-3 sticky top-0 z-30",
+              "text-white font-bold items-center flex text-lg pt-3 sticky top-0 z-30",
               canGoBack ? "pl-2" : "pl-4",
               isTwt ? "bg-zinc-800" : "bg-black/90"
             )}
