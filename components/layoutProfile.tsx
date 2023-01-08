@@ -1,26 +1,68 @@
+import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/util";
-import { User } from "@prisma/client";
+import { Chat, User } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
+import useSWR from "swr";
 import Layout from "./layout";
 interface LayoutProfileProps {
   children: ReactNode;
   profileUser?: User;
+  tweetsCount: number;
 }
-export default function LayoutProfile({ children, profileUser }: LayoutProfileProps) {
+export default function LayoutProfile({ children, profileUser, tweetsCount }: LayoutProfileProps) {
   const router = useRouter();
   const { user } = useUser();
+  const { data } = useSWR("/api/message"); // chat list get방식으로 데이터 가져오기
+  const [chat, { data: chatData }] = useMutation("/api/message"); // chatting 만들기
 
   const onMoveClick = () => {
     router.push("/profile/edit");
   };
 
+  // chat api로 데이터 보내기
+  const onCreateChatClick = () => {
+    const isDuplicateCheckRoom = data?.chatList.filter(
+      (value: Chat) => value.senderId === profileUser?.id && value.receiverId === user?.id
+    )[0];
+    const isExistRooms = data?.chatList.filter(
+      (value: Chat) => value.senderId === user?.id && value.receiverId === profileUser?.id
+    )[0];
+
+    if (isExistRooms) {
+      router.push(`/message/${isExistRooms?.id}`);
+    } else if (isDuplicateCheckRoom) {
+      router.push(`/message/${isDuplicateCheckRoom?.id}`);
+    } else {
+      if (profileUser) {
+        chat({ id: profileUser.id });
+      }
+    }
+  };
+
+  // 채팅 db가 생성되면 채팅 페이지로 이동하기
+  useEffect(() => {
+    if (chatData?.ok) {
+      router.push(`/message/${chatData?.createChat?.id}`);
+    }
+  }, [router, chatData]);
+
   return (
-    <Layout title="Profile" canGoBack>
+    <Layout
+      title={`Profile ${
+        profileUser?.userId
+          ? profileUser.userId.length < 16
+            ? profileUser.userId
+            : `${profileUser.userId.substring(0, 16)}...`
+          : ""
+      }`}
+      canGoBack
+    >
+      <div className="ml-14 mt-[-4px] text-[#71767B] text-sm tracking-tight">{tweetsCount} Tweets</div>
       {!profileUser ? (
-        <div className=" h-[20vh] bg-gray-600 mx-5 my-7  rounded-md animate-pulse" />
+        <div className=" h-[20vh] bg-gray-600 mx-5 my-7 rounded-md animate-pulse" />
       ) : (
         <div>
           <div className="px-10 pt-10 pb-5 flex mb-3 items-center justify-between">
@@ -41,8 +83,25 @@ export default function LayoutProfile({ children, profileUser }: LayoutProfilePr
               >
                 Edit Profile
               </button>
-            ) : null}
+            ) : (
+              <div className="flex justify-end">
+                <button
+                  onClick={onCreateChatClick}
+                  className=" w-12 h-12 rounded-full border-white border-[1px] flex items-center justify-center hover:bg-[rgb(22,24,28)]"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="24" height="24">
+                    <g fill="#EFF3F4">
+                      <path
+                        d="M1.998 5.5c0-1.381 1.119-2.5 2.5-2.5h15c1.381 0 2.5 1.119 2.5 2.5V12h-2v-1.537l-8 3.635-8-3.635V18.5c0 .276.224.5.5.5H13v2H4.498c-1.381 0-2.5-1.119-2.5-2.5v-13zm2 2.766l8 3.635 8-3.635V5.5c0-.276-.224-.5-.5-.5h-15c-.276 0-.5.224-.5.5v2.766zM19 18v-3h2v3h3v2h-3v3h-2v-3h-3v-2h3z"
+                        fill="#EFF3F4"
+                      ></path>
+                    </g>
+                  </svg>
+                </button>
+              </div>
+            )}
           </div>
+
           <div className="px-10 mt-4 mb-10">
             <div className="my-4">
               <span>{profileUser.bio}</span>
