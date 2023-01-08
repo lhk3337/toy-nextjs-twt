@@ -10,7 +10,7 @@ export default function useOnClickOutside(
   useEffect(() => {
     const closeDropdown = (e: any) => {
       if (isDel) {
-        if (e.composedPath[0] !== ref.current) {
+        if (e.composedPath()[0] !== ref.current) {
           if (e.target.id === "") {
             // 해당 삭제모달버튼 id
             // 해당 삭제 모달 버튼 외에는 id를 설정하지 않음, 다른 곳을 클릭 하면 공백으로 확인 되어 조건에 id가 공백이면 setState작동(삭제 모달이 close됨)
@@ -19,7 +19,7 @@ export default function useOnClickOutside(
         }
       } else {
         if (!handler) return;
-        if (e.composedPath[0] !== ref.current) {
+        if (e.composedPath()[0] !== ref.current) {
           handler();
         }
       }
