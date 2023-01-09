@@ -11,7 +11,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     select: { userId: true, id: true, name: true, bio: true, location: true, website: true, createdAt: true },
   });
 
-  const tweetLikeList = await db.like.findMany({
+  const tweetLikeList = await db.likes.findMany({
     where: { user: { userId: id?.toString() } },
     orderBy: [{ id: "desc" }],
     include: {

@@ -7,18 +7,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     query: { id },
     session: { user },
   } = req;
-  const alreadyExist = await db.bookmark.findFirst({
+  const alreadyExist = await db.bookmarks.findFirst({
     where: { userId: user?.id, tweetsId: Number(id) },
     select: { id: true },
   });
   if (alreadyExist) {
-    await db.bookmark.delete({
+    await db.bookmarks.delete({
       where: {
         id: alreadyExist.id,
       },
     });
   } else {
-    await db.bookmark.create({
+    await db.bookmarks.create({
       data: {
         user: {
           connect: {

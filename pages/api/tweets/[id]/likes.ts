@@ -7,18 +7,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     query: { id },
     session: { user },
   } = req;
-  const alreadyExist = await db.like.findFirst({
+  const alreadyExist = await db.likes.findFirst({
     where: { userId: user?.id, tweetsId: Number(id) },
     select: { id: true },
   });
   if (alreadyExist) {
-    await db.like.delete({
+    await db.likes.delete({
       where: {
         id: alreadyExist.id,
       },
     });
   } else {
-    await db.like.create({
+    await db.likes.create({
       data: {
         user: {
           connect: {

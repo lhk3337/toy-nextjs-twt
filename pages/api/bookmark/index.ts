@@ -7,7 +7,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     session: { user },
   } = req;
 
-  const tweetLikeList = await db.bookmark.findMany({
+  const tweetLikeList = await db.bookmarks.findMany({
     where: { userId: user?.id },
     orderBy: [{ id: "desc" }],
     include: {

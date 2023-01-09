@@ -13,35 +13,35 @@ datasource db {
 }
 
 model User {
-  id           Int        @id @default(autoincrement())
-  userId       String?    @unique
-  password     String?    @unique
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  avatar       String     @default("")
-  name         String     @default("")
-  location     String     @default("")
-  website      String     @default("")
-  bio          String     @default("")
-  senderChat   Chat[]     @relation(name: "senderChat")
-  receiverChat Chat[]     @relation(name: "receiverChat")
+  id           Int         @id @default(autoincrement())
+  userId       String?     @unique
+  password     String?     @unique
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  avatar       String      @default("")
+  name         String      @default("")
+  location     String      @default("")
+  website      String      @default("")
+  bio          String      @default("")
+  senderChat   Chat[]      @relation(name: "senderChat")
+  receiverChat Chat[]      @relation(name: "receiverChat")
   tweets       Tweets[]
   answers      Answer[]
-  likes        Like[]
-  bookmarks    Bookmark[]
+  likes        Likes[]
+  bookmarks    Bookmarks[]
   msgs         Msg[]
 }
 
 model Tweets {
-  id        Int        @id @default(autoincrement())
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
-  tweet     String     @db.MediumText
+  tweet     String      @db.MediumText
   answers   Answer[]
-  likes     Like[]
-  bookmarks Bookmark[]
+  likes     Likes[]
+  bookmarks Bookmarks[]
 
   @@index([userId])
 }
@@ -60,7 +60,7 @@ model Answer {
   @@index([userId])
 }
 
-model Bookmark {
+model Bookmarks {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -73,7 +73,7 @@ model Bookmark {
   @@index([tweetsId])
 }
 
-model Like {
+model Likes {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -10,7 +10,7 @@ import Layout from "./layout";
 interface LayoutProfileProps {
   children: ReactNode;
   profileUser?: User;
-  tweetsCount: number;
+  tweetsCount?: number;
 }
 export default function LayoutProfile({ children, profileUser, tweetsCount }: LayoutProfileProps) {
   const router = useRouter();

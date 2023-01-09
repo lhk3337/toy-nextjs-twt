@@ -34,7 +34,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       );
     };
 
-    res.json({ ok: true, tweet, isLiking: await isBoolean(db.like), isBookMarking: await isBoolean(db.bookmark) });
+    res.json({ ok: true, tweet, isLiking: await isBoolean(db.likes), isBookMarking: await isBoolean(db.bookmarks) });
   }
 }
 export default withApiSession(withHandler({ methods: ["GET"], handler }));
