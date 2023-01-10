@@ -41,9 +41,11 @@ export default function Message() {
                       <Time time={new Date(chat.createdAt)} />
                     </div>
                     <div className="text-gray-400">
-                      {chat.msgs[chat.msgs.length - 1]?.message.length < 40
-                        ? chat.msgs[chat.msgs.length - 1]?.message
-                        : `${chat.msgs[chat.msgs.length - 1]?.message.substring(0, 40)} ...`}
+                      {chat.msgs[chat.msgs.length - 1]?.message
+                        ? chat.msgs[chat.msgs.length - 1]?.message.length < 40
+                          ? chat.msgs[chat.msgs.length - 1]?.message
+                          : `${chat.msgs[chat.msgs.length - 1]?.message.substring(0, 40)} ...`
+                        : null}
                     </div>
                   </div>
                 </a>
