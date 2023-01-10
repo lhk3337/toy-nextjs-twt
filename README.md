@@ -25,9 +25,9 @@
 ---
 
 - [ ] Message page
-  - [ ] Message List
-  - [ ] Message Detail
-    - [ ] chating Service
+  - [x] Message List
+  - [x] Message Detail
+    - [x] chating Service
 
 ---
 
