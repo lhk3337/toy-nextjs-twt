@@ -5,7 +5,7 @@ export default function Time({ time }: SendTimeProps) {
   return (
     <>
       {time && (
-        <span className="text-xs text-slate-400">
+        <span className="text-xs text-slate-500">
           {parseInt(time.getFullYear().toString().slice(-2))}.{time.getMonth() + 1}.{time.getDate()}. {""}
           {time.getHours() <= 12
             ? time.getHours() === 12
