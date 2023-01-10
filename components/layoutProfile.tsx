@@ -69,10 +69,10 @@ export default function LayoutProfile({ children, profileUser, tweetsCount }: La
             <div className="flex items-center">
               <div className="h-24 w-24 rounded-full bg-slate-300 p-12" />
               <span className="ml-10 text-2xl font-bold">
-                {profileUser.userId
-                  ? profileUser.userId.length < 16
-                    ? profileUser.userId
-                    : `${profileUser.userId.substring(0, 16)}...`
+                {profileUser.name
+                  ? profileUser.name.length < 16
+                    ? profileUser.name
+                    : `${profileUser.name.substring(0, 16)}...`
                   : ""}
               </span>
             </div>
