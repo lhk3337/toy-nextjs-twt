@@ -1,5 +1,5 @@
 import Layout from "@components/layout";
-import Time from "@components/time";
+import Message from "@components/message";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import { Chat, Msg, User } from "@prisma/client";
@@ -10,7 +10,6 @@ import useSWR from "swr";
 interface MessageFrom {
   message: string;
 }
-
 interface msgResponse extends Msg {
   user: User;
 }
@@ -83,33 +82,7 @@ export default function MessageDetail() {
           {data?.chatUser?.msgs.map((value) => {
             return (
               <div ref={scrollFixed} className="w-[24rem] sm:w-[23rem] md:w-[29rem] lg:w-[34rem]">
-                {value.user?.id !== user?.id ? (
-                  <div className="px-2 py-5 space-y-4">
-                    <div className="flex items-center">
-                      <div className="mr-6">
-                        <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
-                      </div>
-                      <span className="bg-[#373941] text-[#B1B3BA] px-5 py-2 rounded-xl">{value.message}</span>
-                    </div>
-                    <div className="text-gray-500 text-sm">
-                      <Time time={new Date(value.createdAt)} />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="px-2 py-5 space-y-4">
-                    <div className="flex flex-row-reverse items-center">
-                      <div className="ml-6">
-                        <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
-                      </div>
-                      <span className="bg-[#1d9bf0] px-5 py-2 rounded-xl">{value.message}</span>
-                    </div>
-                    <div className="flex justify-end">
-                      <div className="text-gray-500 text-sm">
-                        <Time time={new Date(value.createdAt)} />
-                      </div>
-                    </div>
-                  </div>
-                )}
+                {value.user?.id !== user?.id ? <Message {...value} /> : <Message {...value} reversed />}
               </div>
             );
           })}
