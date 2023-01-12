@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: ["abs.twimg.com"],
+    domains: ["firebasestorage.googleapis.com"],
   },
   reactStrictMode: true,
 };

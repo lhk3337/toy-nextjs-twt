@@ -7,6 +7,8 @@ import useMutation from "@libs/client/useMutation";
 import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import firebase from "@libs/server/firebase";
 import Image from "next/image";
 
 interface EditProfileForm {
@@ -17,34 +19,64 @@ interface EditProfileForm {
   avatar?: FileList;
   formErrors?: string;
 }
-
+interface EditProfileResponse {
+  ok: boolean;
+  error?: string;
+}
 export default function EditProfile() {
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<EditProfileForm>();
+  const { register, setValue, handleSubmit } = useForm<EditProfileForm>();
   const { user } = useUser();
   const router = useRouter();
   const [previewAvatar, setPreviewAvatar] = useState<string>();
   const [imageFile, setImageFile] = useState<FileList>();
-  const [editProfile, { data }] = useMutation("/api/users/me");
+  const [editProfile, { data }] = useMutation<EditProfileResponse>("/api/users/me");
 
   useEffect(() => {
     if (user?.name) setValue("name", user.name);
     if (user?.bio) setValue("bio", user.bio);
     if (user?.location) setValue("location", user.location);
     if (user?.website) setValue("website", user.website);
+    if (user?.avatar) setPreviewAvatar(`${process.env.NEXT_PUBLIC_COMMON_IMAGE_URL}${user.avatar}`);
   }, [user, setValue]);
 
   const onValid = (data: EditProfileForm) => {
-    editProfile({ ...data });
+    // firebase image handler
+    if (imageFile && imageFile.length > 0) {
+      const imageRef = ref(getStorage(firebase), `profile/${user?.userId}/avatar`);
+      const uploadTask = uploadBytesResumable(imageRef, imageFile[0]);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((url) => {
+              editProfile({ ...data, avatar: url.substring(82) });
+            })
+            .catch((e) => console.log(e));
+        }
+      );
+    } else {
+      editProfile({ ...data, avatar: "" });
+    }
     alert("수정되었습니다.");
   };
 
+  // 파일 이미지를 선택시 onChange이벤트로 setImageFile에 파일 정보 저장
   const onChangeAvatar = (e: ChangeEvent) => {
     if (((e.target as HTMLInputElement).files as FileList)[0].size < 500000) {
+      //파일 용량 제한하기
       setImageFile((e.target as HTMLInputElement).files as FileList);
     } else {
       alert("500kb보다 작은 사진을 선택헤 주세요");

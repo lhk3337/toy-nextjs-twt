@@ -12,7 +12,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (!user) return res.status(400).json({ ok: false });
     const users = await db.user.findUnique({
       where: { id: user?.id },
-      select: { userId: true, id: true, name: true, bio: true, location: true, website: true, createdAt: true },
+      select: {
+        userId: true,
+        id: true,
+        name: true,
+        bio: true,
+        location: true,
+        website: true,
+        createdAt: true,
+        avatar: true,
+      },
     });
 
     return res.json({
@@ -23,7 +32,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const {
       session: { user },
-      body: { bio, website, name, location },
+      body: { bio, website, name, location, avatar },
     } = req;
 
     const userUpdate = async (reqBody: string, userInfoField: string) => {
@@ -44,6 +53,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     await userUpdate(bio, "bio");
     await userUpdate(name, "name");
     await userUpdate(location, "location");
+    if (avatar) {
+      await userUpdate(avatar, "avatar");
+    }
 
     res.json({ ok: true });
   }
