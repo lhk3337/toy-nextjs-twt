@@ -4,6 +4,7 @@ import { Chat, Msg, User } from "@prisma/client";
 import Link from "next/link";
 import useSWR from "swr";
 import Time from "@components/time";
+import Image from "next/image";
 
 interface ChatDetail extends Chat {
   msgs: Msg[];
@@ -28,7 +29,23 @@ export default function Message() {
               <Link key={chat.id} href={`/message/${chat.id}`}>
                 <a className="p-5 flex hover:bg-[#16181c]">
                   <div className="mr-6">
-                    <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+                    {chat.sender.avatar || chat.receiver.avatar ? (
+                      <div className="relative h-12 w-12">
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_COMMON_IMAGE_URL}${
+                            user?.id === chat.senderId
+                              ? chat.receiver.avatar
+                              : user?.id === chat.receiverId && chat.sender.avatar
+                          }`}
+                          layout="fill"
+                          className="rounded-full bg-transparent object-cover"
+                          alt="avatar"
+                          priority
+                        />
+                      </div>
+                    ) : (
+                      <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+                    )}
                   </div>
                   <div>
                     <div className="flex items-center">

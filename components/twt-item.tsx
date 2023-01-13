@@ -1,6 +1,7 @@
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/util";
 import { DetailTwtResponse, TweetResponse } from "@pages/tweet/[id]";
+import Image from "next/image";
 import Link from "next/link";
 import useSWR from "swr";
 import Time from "./time";
@@ -51,6 +52,7 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count, 
     );
     onBookMark({});
   };
+
   return (
     <div className={cls(onLinked ? "hover:bg-[rgb(22,24,28)]" : "")}>
       {onLinked ? (
@@ -61,7 +63,19 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count, 
             </span>
             <div className="px-2 flex">
               <div className="mr-6">
-                <div className="h-12 w-12 rounded-full bg-slate-500 p-4" />
+                {user?.avatar ? (
+                  <div className="relative h-12 w-12">
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_COMMON_IMAGE_URL}${user.avatar}`}
+                      layout="fill"
+                      className="rounded-full bg-transparent object-cover"
+                      alt="avatar"
+                      priority
+                    />
+                  </div>
+                ) : (
+                  <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+                )}
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-semibold mb-2">{user?.userId}</span>
@@ -77,7 +91,19 @@ export default function TwtItem({ id, user, tweet, updatedAt, onLinked, _count, 
           </span>
           <div className="px-2 flex">
             <div className="mr-6">
-              <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+              {user?.avatar ? (
+                <div className="relative h-12 w-12">
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_COMMON_IMAGE_URL}${user.avatar}`}
+                    layout="fill"
+                    className="rounded-full bg-transparent object-cover"
+                    alt="avatar"
+                    priority
+                  />
+                </div>
+              ) : (
+                <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+              )}
             </div>
             <div className="flex flex-col">
               <span className="text-lg font-semibold mb-2 hover:text-[#1d9bf0]">

@@ -110,7 +110,7 @@ export default function EditProfile() {
               />
             </div>
           ) : (
-            <div className="h-24 w-24 rounded-full bg-slate-500" />
+            <div className="h-24 w-24 rounded-full bg-slate-300" />
           )}
 
           <label

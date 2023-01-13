@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import useOnClickOutside from "@libs/client/useOnClickOutside";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
+
 interface LeftNavProps {
   onModalTwt: () => void;
 }
@@ -40,7 +41,7 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
   }, [logoutData, router]);
 
   return (
-    <div className="flex pt-10 px-2 sm:p-10 flex-col sm:w-72 justify-between">
+    <div className="flex pt-10 px-2 sm:p-10 flex-col sm:w-72 justify-between sticky">
       <div className="flex flex-col space-y-16">
         <Link href="/">
           <a className="flex justify-center sm:justify-start">
@@ -178,11 +179,26 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
       </div>
       <div className="flex relative mb-5 items-center justify-center sm:justify-between">
         <div className="flex items-center justify-between">
-          <div
-            ref={btnRef1}
-            className="w-10 h-10 rounded-full bg-slate-600 sm:mr-4 cursor-pointer sm:cursor-none pointer-events-auto sm:pointer-events-none"
-            onClick={() => setLogout1((prev) => !prev)}
-          />
+          {user?.avatar ? (
+            <div
+              className="relative w-10 h-10 sm:mr-4 rounded-full cursor-pointer sm:cursor-none pointer-events-auto sm:pointer-events-none"
+              onClick={() => setLogout1((prev) => !prev)}
+            >
+              <img
+                ref={btnRef1}
+                src={`${process.env.NEXT_PUBLIC_COMMON_IMAGE_URL}${user?.avatar}`}
+                className="rounded-full bg-transparent object-cover"
+                alt="avatar"
+              />
+            </div>
+          ) : (
+            <div
+              ref={btnRef1}
+              className="w-10 h-10 rounded-full bg-slate-300 sm:mr-4 cursor-pointer sm:cursor-none pointer-events-auto sm:pointer-events-none"
+              onClick={() => setLogout1((prev) => !prev)}
+            />
+          )}
+
           <div
             className={cls(
               "pl-8 cursor-pointer items-center text-white absolute -top-[5rem] left-1 bg-black w-72 h-16 rounded-xl",

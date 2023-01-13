@@ -6,6 +6,7 @@ import { TweetResponse } from "@pages/tweet/[id]";
 import useSWR from "swr";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { cls } from "@libs/client/util";
+import Image from "next/image";
 
 interface IUser {
   tweets: string;
@@ -87,7 +88,19 @@ export default function TweetWrite({ setIsTwt, isModal }: modalProps) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-between">
           <div className="mr-5">
-            <div className="h-12 w-12 rounded-full bg-slate-500 p-4" />
+            {user?.avatar ? (
+              <div className="relative h-12 w-12">
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_COMMON_IMAGE_URL}${user.avatar}`}
+                  layout="fill"
+                  className="rounded-full bg-transparent object-cover"
+                  alt="avatar"
+                  priority
+                />
+              </div>
+            ) : (
+              <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+            )}
           </div>
           <textarea
             placeholder="무슨 일이 일어나고 있나요?"

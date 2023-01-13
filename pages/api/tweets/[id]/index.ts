@@ -12,7 +12,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const tweet = await db.tweets.findUnique({
       where: { id: Number(id) },
       include: {
-        user: { select: { userId: true } },
+        user: { select: { userId: true, avatar: true } },
         answers: {
           orderBy: [{ id: "desc" }],
           select: {

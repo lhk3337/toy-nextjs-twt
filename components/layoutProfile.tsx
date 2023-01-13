@@ -2,6 +2,7 @@ import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/util";
 import { Chat, User } from "@prisma/client";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect } from "react";
@@ -66,9 +67,21 @@ export default function LayoutProfile({ children, profileUser, tweetsCount }: La
       ) : (
         <div>
           <div className="px-10 pt-10 pb-5 flex mb-3 items-center justify-between">
-            <div className="flex items-center">
-              <div className="h-24 w-24 rounded-full bg-slate-300 p-12" />
-              <span className="ml-10 text-2xl font-bold">
+            <div className="flex items-center justify-between">
+              {profileUser.avatar ? (
+                <div className="relative h-24 w-24">
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_COMMON_IMAGE_URL}${profileUser.avatar}`}
+                    layout="fill"
+                    className="rounded-full bg-transparent object-cover"
+                    alt="avatar"
+                    priority
+                  />
+                </div>
+              ) : (
+                <div className="h-24 w-24 rounded-full bg-slate-300 p-12" />
+              )}
+              <span className="ml-5 sm:ml-5 md:ml-10  sm:text-lg md:text-2xl font-bold ">
                 {profileUser.name
                   ? profileUser.name.length < 16
                     ? profileUser.name

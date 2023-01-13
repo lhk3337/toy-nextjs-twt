@@ -8,6 +8,7 @@ import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/util";
 import { Answer, Tweets, User } from "@prisma/client";
 import { NextPage } from "next";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -116,7 +117,19 @@ const TweetDetail: NextPage = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex">
               <div className="mr-5">
-                <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+                {user?.avatar ? (
+                  <div className="relative h-12 w-12">
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_COMMON_IMAGE_URL}${user.avatar}`}
+                      layout="fill"
+                      className="rounded-full bg-transparent object-cover"
+                      alt="avatar"
+                      priority
+                    />
+                  </div>
+                ) : (
+                  <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+                )}
               </div>
               <textarea
                 placeholder="트윗 답장 하기"
@@ -195,7 +208,19 @@ const TweetDetail: NextPage = () => {
                 <div className="flex flex-col">
                   <div className="flex">
                     <div className="mr-6">
-                      <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+                      {value.user.avatar ? (
+                        <div className="relative h-12 w-12">
+                          <Image
+                            src={`${process.env.NEXT_PUBLIC_COMMON_IMAGE_URL}${value.user.avatar}`}
+                            layout="fill"
+                            className="rounded-full bg-transparent object-cover"
+                            alt="avatar"
+                            priority
+                          />
+                        </div>
+                      ) : (
+                        <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+                      )}
                     </div>
                     <div className="flex flex-col">
                       <div className="flex flex-col mb-3">

@@ -11,7 +11,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     where: { userId: user?.id },
     orderBy: [{ id: "desc" }],
     include: {
-      tweets: { include: { _count: true, user: { select: { userId: true } } } },
+      tweets: { include: { _count: true, user: { select: { userId: true, avatar: true } } } },
     },
   });
   const tweetList = tweetLikeList.map((value) => value.tweets);

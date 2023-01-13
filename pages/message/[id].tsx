@@ -81,7 +81,7 @@ export default function MessageDetail() {
         <div className="h-[89vh] overflow-y-scroll px-4 py-5 scrollbar-hide">
           {data?.chatUser?.msgs.map((value) => {
             return (
-              <div ref={scrollFixed} className="w-[24rem] sm:w-[23rem] md:w-[29rem] lg:w-[34rem]">
+              <div key={value.id} ref={scrollFixed} className="w-[24rem] sm:w-[23rem] md:w-[29rem] lg:w-[34rem]">
                 {value.user?.id !== user?.id ? <Message {...value} /> : <Message {...value} reversed />}
               </div>
             );

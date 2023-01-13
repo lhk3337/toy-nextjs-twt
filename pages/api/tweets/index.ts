@@ -7,7 +7,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const tweetList = await db.tweets.findMany({
       orderBy: [{ id: "desc" }],
       include: {
-        user: { select: { userId: true } },
+        user: { select: { userId: true, avatar: true } },
         _count: { select: { answers: true, likes: true, bookmarks: true } },
       },
     });
