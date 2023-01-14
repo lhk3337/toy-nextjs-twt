@@ -29,7 +29,21 @@ export default function Message() {
               <Link key={chat.id} href={`/message/${chat.id}`}>
                 <a className="p-5 flex hover:bg-[#16181c]">
                   <div className="mr-6">
-                    {chat.sender.avatar || chat.receiver.avatar ? (
+                    {user?.id === chat.senderId && chat.receiver.avatar ? (
+                      <div className="relative h-12 w-12">
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_COMMON_IMAGE_URL}${
+                            user?.id === chat.senderId
+                              ? chat.receiver.avatar
+                              : user?.id === chat.receiverId && chat.sender.avatar
+                          }`}
+                          layout="fill"
+                          className="rounded-full bg-transparent object-cover"
+                          alt="avatar"
+                          priority
+                        />
+                      </div>
+                    ) : user?.id === chat.receiverId && chat.sender.avatar ? (
                       <div className="relative h-12 w-12">
                         <Image
                           src={`${process.env.NEXT_PUBLIC_COMMON_IMAGE_URL}${
