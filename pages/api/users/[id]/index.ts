@@ -29,7 +29,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       _count: { select: { answers: true, likes: true } },
     },
   });
-
-  res.json({ ok: true, user, tweetList });
+  const tweetsCount = await db.tweets.aggregate({
+    where: { user: { userId: id?.toString() } },
+    _count: true,
+  });
+  res.json({ ok: true, user, tweetList, tweetsCount });
 }
 export default withApiSession(withHandler({ methods: ["GET"], handler }));

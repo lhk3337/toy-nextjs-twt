@@ -10,7 +10,7 @@ export default function LikeList() {
   const { data: tweetData } = useSWR(router.query.id ? `/api/users/${router.query.id}` : null);
 
   return (
-    <LayoutProfile profileUser={data?.user} tweetsCount={tweetData?.tweetList.length}>
+    <LayoutProfile profileUser={data?.user} tweetsCount={tweetData?.tweetsCount._count}>
       <TwtList twtList={data?.tweetList} />
     </LayoutProfile>
   );

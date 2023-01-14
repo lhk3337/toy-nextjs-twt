@@ -59,9 +59,9 @@ export default function LayoutProfile({ children, profileUser, tweetsCount }: La
             : `${profileUser.userId.substring(0, 16)}...`
           : ""
       }`}
+      tweetCount={tweetsCount}
       canGoBack
     >
-      <div className="ml-14 mt-[-4px] text-[#71767B] text-sm tracking-tight">{tweetsCount} Tweets</div>
       {!profileUser ? (
         <div className=" h-[20vh] bg-gray-600 mx-5 my-7 rounded-md animate-pulse" />
       ) : (

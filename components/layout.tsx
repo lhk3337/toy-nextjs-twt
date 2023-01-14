@@ -9,8 +9,9 @@ interface LayoutProps {
   title: string;
   children: ReactNode;
   canGoBack?: boolean;
+  tweetCount?: number;
 }
-export default function Layout({ title, children, canGoBack }: LayoutProps) {
+export default function Layout({ title, children, canGoBack, tweetCount }: LayoutProps) {
   const [isTwt, setIsTwt] = useState<boolean>(false);
   const onModalTwt = () => {
     setIsTwt((prev) => !prev);
@@ -53,7 +54,12 @@ export default function Layout({ title, children, canGoBack }: LayoutProps) {
                 </svg>
               </button>
             )}
-            <span>{title}</span>
+            <div className="flex flex-col pb-2">
+              <span>{title}</span>
+              <div className="top-0 mt-[-4px] font-normal text-[#71767B] text-sm tracking-tight">
+                {tweetCount && `${tweetCount > 1000 ? `${(tweetCount / 1000).toFixed(1)}K` : tweetCount} Tweets`}
+              </div>
+            </div>
           </div>
           <div className="text-white">{children}</div>
         </div>
