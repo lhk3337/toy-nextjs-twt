@@ -41,7 +41,7 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
   }, [logoutData, router]);
 
   return (
-    <div className="flex pt-10 px-2 sm:p-10 flex-col sm:w-72 justify-between sticky">
+    <div className="flex pt-10 px-4 sm:p-10 flex-col sm:w-72 justify-between sticky h-[100vh] top-0 left-0 z-[1] ">
       <div className="flex flex-col space-y-16">
         <Link href="/">
           <a className="flex justify-center sm:justify-start">
@@ -201,7 +201,7 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
 
           <div
             className={cls(
-              "pl-8 cursor-pointer items-center text-white absolute -top-[5rem] left-1 bg-black w-72 h-16 rounded-xl",
+              "pl-8 cursor-pointer items-center text-white fixed bottom-20 sm:bottom-32 bg-black w-72 h-16 rounded-xl",
               "shadow-[0_0_5px_2px_rgba(255,255,255,0.26)] hover:bg-[rgb(22,24,28)] z-30",
               logout1 ? "flex" : "hidden"
             )}
@@ -249,8 +249,8 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
         </div>
         <div
           className={cls(
-            "pl-8 cursor-pointer items-center text-white absolute -top-24 -left-6 bg-black w-72 h-16 rounded-xl",
-            "shadow-[0_0_5px_2px_rgba(255,255,255,0.26)] hover:bg-[rgb(22,24,28)] z-30",
+            "pl-8 cursor-pointer items-center text-white  fixed bottom-20 left-[18px] sm:left-auto sm:bottom-32  bg-black w-72 h-16 rounded-xl",
+            "shadow-[0_0_5px_2px_rgba(255,255,255,0.26)] hover:bg-[rgb(22,24,28)]",
             logout2 ? "flex" : "hidden"
           )}
           onClick={onLogoutClick}

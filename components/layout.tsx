@@ -14,6 +14,7 @@ interface LayoutProps {
 export default function Layout({ title, children, canGoBack, tweetCount }: LayoutProps) {
   const [isTwt, setIsTwt] = useState<boolean>(false);
   const onModalTwt = () => {
+    document.body.style.overflow = "hidden";
     setIsTwt((prev) => !prev);
   };
   const router = useRouter();
@@ -22,48 +23,45 @@ export default function Layout({ title, children, canGoBack, tweetCount }: Layou
     router.back();
   };
   return (
-    <main>
+    <>
       <Head>
         <title>{`${title} | Howitter`}</title>
       </Head>
+      <LeftNav onModalTwt={onModalTwt} />
       {isTwt && <TweetWrite setIsTwt={setIsTwt} isModal />}
-      <div className={cls("flex justify-center", isTwt ? "bg-zinc-800 pointer-events-none" : "")}>
-        <LeftNav onModalTwt={onModalTwt} />
-        <div className="h-screen overflow-y-scroll scrollbar-hide w-[600px]  border-[#2f3336] border-x-2 ">
-          <div
-            className={cls(
-              "text-white font-bold items-center flex text-lg pt-3 sticky top-0 z-30",
-              canGoBack ? "pl-2" : "pl-4",
-              isTwt ? "bg-zinc-800" : "bg-black/90"
-            )}
-          >
-            {canGoBack && (
-              <button
-                onClick={onClick}
-                className="mr-2 flex justify-center transition-shadow items-center h-10 w-10 hover:rounded-full hover:bg-[#eff3f41a] hover:transition hover:duration-300"
+      <div className="border-[#2f3336] border-x-2 w-[90%] sm:w-[550px]">
+        <div
+          className={cls(
+            "text-white font-bold items-center flex text-lg pt-3 sticky top-0 z-40 bg-black",
+            canGoBack ? "pl-2" : "pl-4"
+          )}
+        >
+          {canGoBack && (
+            <button
+              onClick={onClick}
+              className="mr-2 flex justify-center transition-shadow items-center h-10 w-10 hover:rounded-full hover:bg-[#eff3f41a] hover:transition hover:duration-300"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-5 h-5"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                </svg>
-              </button>
-            )}
-            <div className="flex flex-col pb-2">
-              <span>{title}</span>
-              <div className="top-0 mt-[-4px] font-normal text-[#71767B] text-sm tracking-tight">
-                {tweetCount && `${tweetCount > 1000 ? `${(tweetCount / 1000).toFixed(1)}K` : tweetCount} Tweets`}
-              </div>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+              </svg>
+            </button>
+          )}
+          <div className="flex flex-col pb-2">
+            <span>{title}</span>
+            <div className="top-0 mt-[-4px] font-normal text-[#71767B] text-sm tracking-tight">
+              {tweetCount && `${tweetCount > 1000 ? `${(tweetCount / 1000).toFixed(1)}K` : tweetCount} Tweets`}
             </div>
           </div>
-          <div className="text-white">{children}</div>
         </div>
+        <div className="text-white">{children}</div>
       </div>
-    </main>
+    </>
   );
 }

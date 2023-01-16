@@ -14,7 +14,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <link rel="shortcut icon" href={favicon.src} type="image/x-icon" />
       </Head>
-      <Component {...pageProps} />
+      <div className="mx-auto h-full max-w-5xl flex justify-center">
+        <Component {...pageProps} />
+      </div>
     </SWRConfig>
   );
 }

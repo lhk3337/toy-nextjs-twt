@@ -9,9 +9,7 @@ export default function TwtList({ twtList }: TwtListProps) {
     <>
       {!twtList ? (
         <>
-          {Array.from(Array(20).keys()).map((_, i) => {
-            return <div key={i} className=" h-[10vh] bg-gray-600 mx-5 my-7  rounded-md animate-pulse" />;
-          })}
+          <div className=" h-[82vh] bg-gray-600 mx-5 my-7  rounded-md animate-pulse" />;
         </>
       ) : (
         <>
