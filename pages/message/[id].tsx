@@ -95,7 +95,7 @@ export default function MessageDetail() {
               autoComplete="off"
               spellCheck={false}
               placeholder="Start a new message"
-              className="h-12 w-[20rem] sm:w-[20rem] md:w-[25rem] lg:w-[28rem] p-5 bg-[#373941] placeholder:text-sm appearance-none rounded-full text-white focus:outline-none"
+              className="h-12 w-[20rem] sm:w-[20rem] md:w-[25rem] lg:w-[28rem] p-5 bg-[#373941] placeholder:text-sm appearance-none rounded-full text-white focus:outline-none focus:ring-1 focus:bg-black focus:ring-[#1d9bf0]"
             />
             <button className="flex items-center  appearance-none justify-center w-12 h-12 pb-1 rounded-full bg-[#1d9bf0]">
               <svg
