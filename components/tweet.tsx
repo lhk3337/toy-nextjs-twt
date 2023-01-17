@@ -7,6 +7,7 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { cls } from "@libs/client/util";
 import Image from "next/image";
 import { KeyedMutator } from "swr";
+import { User } from "@prisma/client";
 
 interface IUser {
   tweets: string;
@@ -15,6 +16,8 @@ interface IUser {
 export interface TweetsResponse {
   ok: boolean;
   tweetList: TweetResponse[];
+  tweetsCount: { _count: number };
+  user: User;
 }
 
 interface modalProps {
