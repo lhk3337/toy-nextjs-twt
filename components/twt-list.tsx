@@ -9,7 +9,7 @@ export default function TwtList({ twtList }: TwtListProps) {
     <>
       {!twtList ? (
         <>
-          <div className=" h-[82vh] bg-gray-600 mx-5 my-7  rounded-md animate-pulse" />;
+          <div className=" h-[82vh] bg-gray-600 mx-5 my-7  rounded-md animate-pulse" />
         </>
       ) : (
         <>
