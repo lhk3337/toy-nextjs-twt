@@ -5,6 +5,7 @@ import Link from "next/link";
 import useSWR from "swr";
 import Time from "@components/time";
 import MessageProfile from "@components/messageProfile";
+import usePagination from "@libs/client/usePagination";
 
 export interface ChatDetail extends Chat {
   msgs: Msg[];
@@ -16,15 +17,16 @@ interface MsgResponse {
   chatList: ChatDetail[];
 }
 export default function Message() {
-  const { data } = useSWR<MsgResponse>("/api/message");
+  const { data: messageData } = useSWR<MsgResponse>("/api/message");
   const { user } = useUser();
+  const { mutate } = usePagination("/api/tweets/");
   return (
-    <Layout title="Message">
-      {!data ? (
+    <Layout title="Message" mutate={mutate}>
+      {!messageData ? (
         <div className="p-5 h-screen bg-slate-500 mx-5 my-7  rounded-md animate-pulse" />
       ) : (
         <div className="mt-3">
-          {data?.chatList.map((chat: ChatDetail) => {
+          {messageData?.chatList.map((chat: ChatDetail) => {
             return (
               <Link key={chat.id} href={`/message/${chat.id}`}>
                 <a className="p-5 flex hover:bg-[#16181c]">

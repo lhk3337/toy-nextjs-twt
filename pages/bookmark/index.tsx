@@ -1,11 +1,12 @@
 import Layout from "@components/layout";
 import TwtList from "@components/twt-list";
+import usePagination from "@libs/client/usePagination";
 import useSWR from "swr";
 export default function Bookmarks() {
   const { data } = useSWR("/api/bookmark");
-
+  const { mutate } = usePagination("/api/tweets/");
   return (
-    <Layout title="Bookmark">
+    <Layout title="Bookmark" mutate={mutate}>
       {!data ? (
         <>
           {Array.from(Array(20).keys()).map((_, i) => {

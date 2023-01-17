@@ -1,4 +1,5 @@
 import useMutation from "@libs/client/useMutation";
+import usePagination from "@libs/client/usePagination";
 import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/util";
 import { Chat, User } from "@prisma/client";
@@ -18,7 +19,7 @@ export default function LayoutProfile({ children, profileUser, tweetsCount }: La
   const { user } = useUser();
   const { data } = useSWR("/api/message"); // chat list get방식으로 데이터 가져오기
   const [chat, { data: chatData }] = useMutation("/api/message"); // chatting 만들기
-
+  const { mutate } = usePagination("/api/tweets/");
   const onMoveClick = () => {
     router.push("/profile/edit");
   };
@@ -59,6 +60,7 @@ export default function LayoutProfile({ children, profileUser, tweetsCount }: La
             : `${profileUser.userId.substring(0, 16)}...`
           : ""
       }`}
+      mutate={mutate}
       tweetCount={tweetsCount}
       canGoBack
     >
