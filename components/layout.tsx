@@ -4,14 +4,16 @@ import { ReactNode, useState } from "react";
 import LeftNav from "@components/leftNav";
 import { useRouter } from "next/router";
 import { cls } from "@libs/client/util";
-import TweetWrite from "./tweet";
+import TweetWrite, { TweetsResponse } from "./tweet";
+import { KeyedMutator } from "swr";
 interface LayoutProps {
   title: string;
   children: ReactNode;
   canGoBack?: boolean;
   tweetCount?: number;
+  mutate?: KeyedMutator<TweetsResponse[]>;
 }
-export default function Layout({ title, children, canGoBack, tweetCount }: LayoutProps) {
+export default function Layout({ title, children, canGoBack, tweetCount, mutate }: LayoutProps) {
   const [isTwt, setIsTwt] = useState<boolean>(false);
   const onModalTwt = () => {
     document.body.style.overflow = "hidden";
@@ -28,7 +30,7 @@ export default function Layout({ title, children, canGoBack, tweetCount }: Layou
         <title>{`${title} | Howitter`}</title>
       </Head>
       <LeftNav onModalTwt={onModalTwt} />
-      {isTwt && <TweetWrite setIsTwt={setIsTwt} isModal />}
+      {isTwt && <TweetWrite setIsTwt={setIsTwt} isModal mutate={mutate} />}
       <div className="border-[#2f3336] border-x-2 w-[90%] sm:w-[550px]">
         <div
           className={cls(

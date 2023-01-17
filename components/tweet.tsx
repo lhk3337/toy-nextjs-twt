@@ -3,16 +3,16 @@ import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { TweetResponse } from "@pages/tweet/[id]";
-import useSWR from "swr";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { cls } from "@libs/client/util";
 import Image from "next/image";
+import { KeyedMutator } from "swr";
 
 interface IUser {
   tweets: string;
 }
 
-interface TweetsResponse {
+export interface TweetsResponse {
   ok: boolean;
   tweetList: TweetResponse[];
 }
@@ -20,9 +20,10 @@ interface TweetsResponse {
 interface modalProps {
   isModal: boolean;
   setIsTwt?: Dispatch<SetStateAction<boolean>>;
+  mutate?: KeyedMutator<TweetsResponse[]>;
 }
 
-export default function TweetWrite({ setIsTwt, isModal }: modalProps) {
+export default function TweetWrite({ setIsTwt, isModal, mutate }: modalProps) {
   const {
     register,
     handleSubmit,
@@ -30,33 +31,11 @@ export default function TweetWrite({ setIsTwt, isModal }: modalProps) {
     formState: { errors },
   } = useForm<IUser>();
 
-  const { data, mutate, error } = useSWR<TweetsResponse | undefined>("/api/tweets");
   const [tweetWrite, { data: createData, loading }] = useMutation("/api/tweets");
   const { user } = useUser();
 
   const onSubmit: SubmitHandler<IUser> = ({ tweets }) => {
     if (loading) return;
-    if (isModal && setIsTwt) {
-      setIsTwt((prev: boolean) => !prev);
-    }
-    mutate(
-      (prev) =>
-        prev && {
-          ...prev,
-          tweetList: [
-            {
-              id: prev.tweetList.length !== 0 ? prev.tweetList[0].id + 1 : createData?.tweet.id,
-              updatedAt: new Date(),
-              createdAt: new Date(),
-              tweet: tweets,
-              user: { ...user },
-              _count: { answers: 0, likes: 0, bookmarks: 0 },
-            },
-            ...prev.tweetList,
-          ] as any,
-        },
-      false
-    );
     tweetWrite({ tweets });
   };
 
@@ -68,10 +47,15 @@ export default function TweetWrite({ setIsTwt, isModal }: modalProps) {
   };
   useEffect(() => {
     if (createData?.ok && createData.tweet) {
+      if (isModal && setIsTwt) {
+        setIsTwt((prev: boolean) => !prev);
+        document.body.style.overflow = "unset";
+      }
       reset();
+      if (!mutate) return;
       mutate();
     }
-  }, [createData, reset, mutate]);
+  }, [createData, reset, setIsTwt, mutate]);
   return (
     <>
       {isModal ? (
@@ -113,19 +97,7 @@ export default function TweetWrite({ setIsTwt, isModal }: modalProps) {
           </div>
         </div>
       ) : (
-        <div
-          className={cls(
-            "p-5 pt-8 text-white",
-            isModal
-              ? "sm:w-[500px] w-[90%] sm:top-20 top-10 left-1/2 -translate-x-1/2 bg-black rounded-lg z-50 fixed"
-              : ""
-          )}
-        >
-          {isModal && (
-            <button className="text-white font-black fixed right-5 top-3" onClick={closeClick}>
-              X
-            </button>
-          )}
+        <div className={cls("p-5 pt-8 text-white")}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex justify-between">
               <div className="mr-5">
