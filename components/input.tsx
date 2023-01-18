@@ -11,9 +11,9 @@ export default function Input({ id, register }: InputProps) {
         type="text"
         id={id}
         spellCheck={false}
+        autoComplete="off"
         className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-white autofill:bg-black
-        bg-transparent rounded-lg border-2 border-white appearance-none autocompbg
-        focus:outline-none focus:ring-0 focus:border-[#1d9bf0] peer"
+        bg-transparent rounded-lg border-2 border-white appearance-none focus:outline-none focus:ring-0 focus:border-[#1d9bf0] peer"
         placeholder=" "
       />
       <label
