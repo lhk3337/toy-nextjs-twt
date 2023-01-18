@@ -2,6 +2,7 @@ import useMutation from "@libs/client/useMutation";
 import usePagination from "@libs/client/usePagination";
 import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/util";
+import { userTweets } from "@pages/profile/[id]";
 import { Chat, User } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,8 +14,9 @@ interface LayoutProfileProps {
   children: ReactNode;
   profileUser?: User;
   tweetsCount?: number;
+  layoutData?: userTweets;
 }
-export default function LayoutProfile({ children, profileUser, tweetsCount }: LayoutProfileProps) {
+export default function LayoutProfile({ children, profileUser, tweetsCount, layoutData }: LayoutProfileProps) {
   const router = useRouter();
   const { user } = useUser();
   const { data } = useSWR("/api/message"); // chat list get방식으로 데이터 가져오기
@@ -50,7 +52,11 @@ export default function LayoutProfile({ children, profileUser, tweetsCount }: La
       router.push(`/message/${chatData?.createChat?.id}`);
     }
   }, [router, chatData]);
-
+  useEffect(() => {
+    if (layoutData && !layoutData.ok) {
+      router.replace("/");
+    }
+  }, [layoutData, router]);
   return (
     <Layout
       title={`Profile ${
@@ -65,7 +71,7 @@ export default function LayoutProfile({ children, profileUser, tweetsCount }: La
       canGoBack
     >
       {!profileUser ? (
-        <div className=" h-[20vh] bg-gray-600 mx-5 my-7 rounded-md animate-pulse" />
+        <div className=" h-[100vh] bg-gray-600 mx-5 my-7 rounded-md animate-pulse" />
       ) : (
         <div>
           <div className="px-10 pt-10 pb-5 flex mb-3 items-center justify-between">

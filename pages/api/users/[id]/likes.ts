@@ -7,21 +7,29 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     query: { id, page },
   } = req;
 
-  const tweetLikeList = await db.likes.findMany({
-    take: 10,
-    skip: (Number(page) - 1) * 10,
+  const isTweetLikeList = await db.likes.aggregate({
     where: { user: { userId: id?.toString() } },
-    orderBy: [{ id: "desc" }],
-    include: {
-      tweets: {
-        include: {
-          user: { select: { userId: true, avatar: true } },
-          _count: { select: { answers: true, likes: true } },
+    _count: true,
+  });
+  if (isTweetLikeList._count) {
+    const tweetLikeList = await db.likes.findMany({
+      take: 10,
+      skip: (Number(page) - 1) * 10,
+      where: { user: { userId: id?.toString() } },
+      orderBy: [{ id: "desc" }],
+      include: {
+        tweets: {
+          include: {
+            user: { select: { userId: true, avatar: true } },
+            _count: { select: { answers: true, likes: true } },
+          },
         },
       },
-    },
-  });
-  const tweetList = tweetLikeList.map((value) => value.tweets);
-  res.json({ ok: true, tweetList });
+    });
+    const tweetList = tweetLikeList.map((value) => value.tweets);
+    res.json({ ok: true, tweetList });
+  } else {
+    res.json({ ok: false, tweetList: [] });
+  }
 }
 export default withApiSession(withHandler({ methods: ["GET"], handler }));

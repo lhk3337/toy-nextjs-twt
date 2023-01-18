@@ -26,7 +26,7 @@ export default function MessageDetail() {
   const router = useRouter();
   const { user } = useUser();
   const { data, mutate } = useSWR<messageResponse>(router.query.id ? `/api/message/${router.query.id}` : null, {
-    refreshInterval: 1000,
+    refreshInterval: 2000,
   });
   const { register, handleSubmit, setFocus, reset } = useForm<MessageFrom>();
   const [sendMessage, { loading }] = useMutation(`/api/message/${router.query.id}/msg`);
@@ -61,8 +61,16 @@ export default function MessageDetail() {
   });
 
   useEffect(() => {
-    setFocus("message");
-  }, [setFocus]);
+    if (data && !data.ok) {
+      router.replace("/");
+    }
+  }, [data, router]);
+
+  useEffect(() => {
+    if (data) {
+      setFocus("message");
+    }
+  }, [setFocus, data]);
 
   return (
     <Layout
@@ -77,47 +85,51 @@ export default function MessageDetail() {
       }
       canGoBack
     >
-      <div className="px-4 flex justify-center">
-        <div className="py-5 mb-12">
-          {data?.chatUser?.msgs.map((value) => {
-            return (
-              <div key={value.id} ref={scrollFixed} className="w-[24rem] sm:w-[23rem] md:w-[29rem] lg:w-[34rem]">
-                {value.user?.id !== user?.id ? <Message {...value} /> : <Message {...value} reversed />}
-              </div>
-            );
-          })}
+      {!data ? (
+        <div className=" h-[100vh] bg-gray-600 mx-5 my-7 rounded-md animate-pulse" />
+      ) : (
+        <div className="px-4 flex justify-center">
+          <div className="py-5 mb-12">
+            {data?.chatUser?.msgs.map((value) => {
+              return (
+                <div key={value.id} ref={scrollFixed} className="w-[24rem] sm:w-[23rem] md:w-[29rem] lg:w-[34rem]">
+                  {value.user?.id !== user?.id ? <Message {...value} /> : <Message {...value} reversed />}
+                </div>
+              );
+            })}
+          </div>
+          <div className="fixed bottom-5">
+            <form onSubmit={handleSubmit(onValid)} className="flex space-x-5">
+              <input
+                {...register("message", { required: true })}
+                type="text"
+                autoComplete="off"
+                spellCheck={false}
+                placeholder="Start a new message"
+                className="h-12 w-[20rem] sm:w-[20rem] md:w-[25rem] lg:w-[28rem] p-5 bg-[#373941] placeholder:text-sm appearance-none rounded-full text-white focus:outline-none focus:ring-1 focus:bg-black focus:ring-[#1d9bf0]"
+              />
+              <button className="flex items-center  appearance-none justify-center w-12 h-12 pb-1 rounded-full bg-[#1d9bf0]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                  width="24"
+                  height="24"
+                  transform="rotate(-40)"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                  />
+                </svg>
+              </button>
+            </form>
+          </div>
         </div>
-        <div className="fixed bottom-5">
-          <form onSubmit={handleSubmit(onValid)} className="flex space-x-5">
-            <input
-              {...register("message", { required: true })}
-              type="text"
-              autoComplete="off"
-              spellCheck={false}
-              placeholder="Start a new message"
-              className="h-12 w-[20rem] sm:w-[20rem] md:w-[25rem] lg:w-[28rem] p-5 bg-[#373941] placeholder:text-sm appearance-none rounded-full text-white focus:outline-none focus:ring-1 focus:bg-black focus:ring-[#1d9bf0]"
-            />
-            <button className="flex items-center  appearance-none justify-center w-12 h-12 pb-1 rounded-full bg-[#1d9bf0]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                width="24"
-                height="24"
-                transform="rotate(-40)"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
-                />
-              </svg>
-            </button>
-          </form>
-        </div>
-      </div>
+      )}
     </Layout>
   );
 }

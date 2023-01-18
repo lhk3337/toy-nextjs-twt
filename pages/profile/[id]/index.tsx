@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useSWR from "swr";
 
-interface userTweets {
+export interface userTweets {
   ok: boolean;
   user: User;
   tweetsCount: { _count: number };
@@ -26,7 +26,7 @@ export default function TweetList() {
   }, [setSize, page]);
 
   return (
-    <LayoutProfile profileUser={layoutData?.user} tweetsCount={layoutData?.tweetsCount._count}>
+    <LayoutProfile profileUser={layoutData?.user} tweetsCount={layoutData?.tweetsCount?._count} layoutData={layoutData}>
       <InfiniteScroll
         next={() => setSize(page)}
         dataLength={data?.length ?? 0}

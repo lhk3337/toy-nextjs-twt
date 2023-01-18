@@ -15,7 +15,7 @@ export default function LikeList() {
   }, [setSize, page]);
 
   return (
-    <LayoutProfile profileUser={layoutData?.user} tweetsCount={layoutData?.tweetsCount._count}>
+    <LayoutProfile profileUser={layoutData?.user} tweetsCount={layoutData?.tweetsCount?._count} layoutData={layoutData}>
       <InfiniteScroll
         next={() => setSize(page)}
         dataLength={data?.length ?? 0}

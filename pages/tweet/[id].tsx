@@ -102,6 +102,12 @@ const TweetDetail: NextPage = () => {
     }
   }, [answerData, reset, mutate]);
   useEffect(() => {
+    if (data && !data.ok) {
+      router.replace("/");
+    }
+  }, [data, router]);
+
+  useEffect(() => {
     if (delAnswerData?.ok) {
       router.reload();
     }
@@ -109,50 +115,43 @@ const TweetDetail: NextPage = () => {
 
   return (
     <Layout title="Detail Tweet" canGoBack>
-      {!data ? <div className=" h-[10vh] bg-gray-600 mx-5 rounded-md animate-pulse" /> : <TwtItem {...data?.tweet} />}
-      <div className="p-5 pt-8 border-b-2 border-[#2f3336]">
-        {!data ? (
-          <div className=" h-[15vh] bg-gray-600  rounded-md animate-pulse" />
-        ) : (
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex">
-              <div className="mr-5">
-                {user?.avatar ? (
-                  <div className="relative h-12 w-12">
-                    <Image
-                      src={`${process.env.NEXT_PUBLIC_COMMON_IMAGE_URL}${user.avatar}`}
-                      layout="fill"
-                      className="rounded-full bg-transparent object-cover"
-                      alt="avatar"
-                      priority
-                    />
-                  </div>
-                ) : (
-                  <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
-                )}
-              </div>
-              <textarea
-                placeholder="트윗 답장 하기"
-                rows={3}
-                {...register("rtweet", { required: true })}
-                className="text-xl resize-none w-full scrollbar-hide focus:outline-none bg-transparent placeholder:text-[#2f3336] placeholder:font-semibold placeholder:text-xl"
-              />
-            </div>
-            <div className="flex justify-end">
-              <Button btnName="Reply" />
-            </div>
-          </form>
-        )}
-      </div>
-      {!data ? (
-        <>
-          {Array.from(Array(10).keys()).map((_, i) => {
-            return <div key={i} className=" h-[10vh] bg-gray-600 mx-5 my-7  rounded-md animate-pulse" />;
-          })}
-        </>
+      {!data?.tweet ? (
+        <div className=" h-screen bg-gray-600 mx-5 rounded-md animate-pulse" />
       ) : (
         <>
-          {data.tweet?.answers.map((value, index) => {
+          <TwtItem {...data?.tweet} />
+          <div className="p-5 pt-8 border-b-2 border-[#2f3336]">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="flex">
+                <div className="mr-5">
+                  {user?.avatar ? (
+                    <div className="relative h-12 w-12">
+                      <Image
+                        src={`${process.env.NEXT_PUBLIC_COMMON_IMAGE_URL}${user.avatar}`}
+                        layout="fill"
+                        className="rounded-full bg-transparent object-cover"
+                        alt="avatar"
+                        priority
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-12 w-12 rounded-full bg-slate-300 p-4" />
+                  )}
+                </div>
+                <textarea
+                  placeholder="트윗 답장 하기"
+                  rows={3}
+                  {...register("rtweet", { required: true })}
+                  className="text-xl resize-none w-full scrollbar-hide focus:outline-none bg-transparent placeholder:text-[#2f3336] placeholder:font-semibold placeholder:text-xl"
+                />
+              </div>
+              <div className="flex justify-end">
+                <Button btnName="Reply" />
+              </div>
+            </form>
+          </div>
+
+          {data?.tweet?.answers.map((value, index) => {
             return (
               <div key={index} className="p-5 border-b-2 border-[#2f3336] relative">
                 {value.user.id === user?.id ? (

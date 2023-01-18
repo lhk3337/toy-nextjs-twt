@@ -7,27 +7,35 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
   const {
     query: { id },
   } = req;
-  const chatUser = await db.chat.findUnique({
-    where: {
-      id: Number(id),
-    },
-    include: {
-      sender: { select: { userId: true, avatar: true } },
-      receiver: { select: { userId: true, avatar: true } },
-      msgs: {
-        select: {
-          message: true,
-          createdAt: true,
-          id: true,
-          updatedAt: true,
-          user: { select: { avatar: true, id: true } },
+
+  const isChat = Boolean(
+    await db.chat.findUnique({
+      where: { id: Number(id) },
+    })
+  );
+  if (isChat) {
+    const chatUser = await db.chat.findUnique({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        sender: { select: { userId: true, avatar: true } },
+        receiver: { select: { userId: true, avatar: true } },
+        msgs: {
+          select: {
+            message: true,
+            createdAt: true,
+            id: true,
+            updatedAt: true,
+            user: { select: { avatar: true, id: true } },
+          },
         },
       },
-    },
-  });
-  if (!chatUser) {
-    res.json({ ok: false, message: "Not Founded" });
+    });
+
+    res.json({ ok: true, chatUser });
+  } else {
+    res.json({ ok: false });
   }
-  res.json({ ok: true, chatUser });
 }
 export default withApiSession(withHandler({ methods: ["GET"], handler }));
