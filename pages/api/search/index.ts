@@ -7,13 +7,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
   const {
     query: { userId },
   } = req;
-
+  if (!userId) return;
   const findUser = await db.user.findMany({
     where: {
       userId: {
-        search: userId?.toString(), // search term
+        startsWith: userId.toString(),
       },
     },
+    select: { userId: true, avatar: true, bio: true },
   });
   res.json({ ok: true, findUser });
 }
