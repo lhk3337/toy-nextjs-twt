@@ -3,7 +3,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["filteredRelationCount"]
+  previewFeatures = ["filteredRelationCount", "fullTextIndex", "fullTextSearch"]
 }
 
 datasource db {
@@ -30,6 +30,8 @@ model User {
   likes        Likes[]
   bookmarks    Bookmarks[]
   msgs         Msg[]
+
+  @@fulltext([userId])
 }
 
 model Tweets {
