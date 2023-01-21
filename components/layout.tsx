@@ -58,7 +58,8 @@ export default function Layout({ title, children, canGoBack, tweetCount, mutate 
           <div className="flex flex-col pb-2">
             <span>{title}</span>
             <div className="top-0 mt-[-4px] font-normal text-[#71767B] text-sm tracking-tight">
-              {tweetCount && `${tweetCount > 1000 ? `${(tweetCount / 1000).toFixed(1)}K` : tweetCount} Tweets`}
+              {tweetCount !== undefined &&
+                `${tweetCount > 1000 ? `${(tweetCount / 1000).toFixed(1)}K Tweets` : `${tweetCount} Tweets`}`}
             </div>
           </div>
         </div>
