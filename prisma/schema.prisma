@@ -22,7 +22,7 @@ model User {
   name         String      @default("")
   location     String      @default("")
   website      String      @default("")
-  bio          String      @default("")
+  bio          String      @db.MediumText
   senderChat   Chat[]      @relation(name: "senderChat")
   receiverChat Chat[]      @relation(name: "receiverChat")
   tweets       Tweets[]
