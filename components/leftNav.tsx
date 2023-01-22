@@ -41,7 +41,7 @@ export default function LeftNav({ onModalTwt }: LeftNavProps) {
   }, [logoutData, router]);
 
   return (
-    <div className="flex pt-10 px-4 sm:p-10 flex-col sm:w-72 justify-between sticky h-[100vh] top-0 left-0 z-[1] ">
+    <div className="flex pt-10 px-2 sm:p-10 flex-col sm:w-72 justify-between sticky h-[100vh] top-0 left-0 z-[1] ">
       <div className="flex flex-col space-y-16">
         <MenuItem />
         <Button btnName="Tweet" mid responsive onClick={onModalTwt} />
