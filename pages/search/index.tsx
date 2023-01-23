@@ -1,4 +1,5 @@
 import Layout from "@components/layout";
+import usePagination from "@libs/client/usePagination";
 import { User } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +19,7 @@ export default function Search() {
   const [isUser, setIsUser] = useState(true);
   const { handleSubmit, register, setFocus } = useForm<SearchForm>();
   const { data } = useSWR<SearchUserResponse>(`/api/search?userId=${userSearch}`);
-
+  const { mutate } = usePagination("/api/tweets/");
   const onValid = (form: SearchForm) => {
     if (!form.search) return;
     setUserSearch(form?.search);
@@ -35,7 +36,7 @@ export default function Search() {
   }, [data, setIsUser]);
 
   return (
-    <Layout title="Search">
+    <Layout title="Search" mutate={mutate}>
       <div className="p-5 pt-8">
         <form onSubmit={handleSubmit(onValid)} className="flex space-x-5 justify-center">
           <input
