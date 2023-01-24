@@ -19,7 +19,7 @@ interface LayoutProfileProps {
 export default function LayoutProfile({ children, profileUser, tweetsCount, layoutData }: LayoutProfileProps) {
   const router = useRouter();
   const { user } = useUser();
-  const { data } = useSWR("/api/message"); // chat list get방식으로 데이터 가져오기
+  const { data } = useSWR("/api/message/onMessage"); // chat list get방식으로 데이터 가져오기
   const [chat, { data: chatData }] = useMutation("/api/message"); // chatting 만들기
   const { mutate } = usePagination("/api/tweets/");
   const onMoveClick = () => {
@@ -28,10 +28,10 @@ export default function LayoutProfile({ children, profileUser, tweetsCount, layo
 
   // chat api로 데이터 보내기
   const onCreateChatClick = () => {
-    const isDuplicateCheckRoom = data?.chatList.filter(
+    const isDuplicateCheckRoom = data?.chatList?.filter(
       (value: Chat) => value.senderId === profileUser?.id && value.receiverId === user?.id
     )[0];
-    const isExistRooms = data?.chatList.filter(
+    const isExistRooms = data?.chatList?.filter(
       (value: Chat) => value.senderId === user?.id && value.receiverId === profileUser?.id
     )[0];
 
