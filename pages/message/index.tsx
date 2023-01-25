@@ -19,7 +19,6 @@ export default function Message() {
   const { user } = useUser();
   const { mutate } = usePagination("/api/tweets/");
   const { data: messageData, isReachedEnd, setSize, page } = usepaginationMessage(`/api/message`);
-  console.log(messageData);
   useEffect(() => {
     setSize(page);
   }, [setSize, page]);

@@ -62,7 +62,7 @@ export default function Search() {
           {isUser ? (
             <>
               {data?.findUser?.map((value) => (
-                <Link href={`/profile/${value.userId}`}>
+                <Link key={value.userId} href={`/profile/${value.userId}`}>
                   <a className="bg-[#373941] px-5 rounded-xl py-3 flex cursor-pointer w-full hover:bg-[rgb(22,24,28)] mb-5">
                     <div className="h-16 w-16 relative rounded-full shadow-[5px_5px_14px_0_rgba(0,0,0,0.7)] bg-[#d9d9d9] flex items-center justify-center">
                       <Image
